@@ -6,7 +6,7 @@
 /*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 15:38:59 by aglampor          #+#    #+#             */
-/*   Updated: 2024/08/24 16:48:42 by acoste           ###   ########.fr       */
+/*   Updated: 2024/08/24 20:25:05 by acoste           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	ft_delnode_key(t_env **lst, char *key );
 //env
 void	free_env(t_env	*p);
 void	init_env(t_env **env, char **ev);
+void	display_env(t_env **env); //new
 
 //exit
 void	m_exit(int code, char *val);
@@ -90,6 +91,7 @@ int		is_empty_line(char *line);
 int		is_redir(char *s);
 int		is_builtin(char *s);
 int		is_cmd(char *s, t_env *env);
+void	ft_putstr(char *str); //new
 
 //signals
 void	sigquit_handler(int signal);

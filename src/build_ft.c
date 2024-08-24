@@ -6,7 +6,7 @@
 /*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 14:59:27 by aglampor          #+#    #+#             */
-/*   Updated: 2024/08/23 16:15:48 by acoste           ###   ########.fr       */
+/*   Updated: 2024/08/24 19:15:34 by acoste           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ t_env	*ft_lstlast(t_env *lst)
 	return (temp);
 }
 
-void	ft_delnode_key(t_env **lst, char *key )
+void	ft_delnode_key(t_env **lst, char *key)
 {
 	t_env	*temp;
 	t_env	*flag;

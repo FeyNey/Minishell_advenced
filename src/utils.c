@@ -6,7 +6,7 @@
 /*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 14:59:27 by aglampor          #+#    #+#             */
-/*   Updated: 2024/08/23 19:40:51 by acoste           ###   ########.fr       */
+/*   Updated: 2024/08/24 20:24:48 by acoste           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,4 +138,16 @@ int	is_redir(char *s)
 	if (ft_cmp("|", s))
 		return (PIPE);
 	return (0);
+}
+
+void	ft_putstr(char *str) //new
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		write(1, &str[i], 1);
+		i++;
+	}
 }
