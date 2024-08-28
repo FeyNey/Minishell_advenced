@@ -6,7 +6,7 @@
 /*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 15:38:59 by aglampor          #+#    #+#             */
-/*   Updated: 2024/08/24 20:25:05 by acoste           ###   ########.fr       */
+/*   Updated: 2024/08/27 17:19:06 by acoste           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 //token
 typedef struct s_token
 {
-	char			*value;
+	char			**value;
 	int				type;
 	struct s_token	*next;
 }	t_token;
@@ -46,22 +46,39 @@ typedef struct s_environement
 {
 	char					*key;
 	char					*value;
+	int						index;
+	int						pid;
 	struct s_environement	*next;
 }	t_env;
+
+//alexis
+//echo
+
+//ft_env
+void	display_env(t_env **env);
 
 //build_ft
 void	ft_lstadd_back(t_env **alst, t_env *new);
 t_env	*ft_lstnew(char *key, char *value);
 t_env	*ft_lstlast(t_env *lst);
 void	ft_delnode_key(t_env **lst, char *key );
+void	ft_indexion(t_env *list);
 
 //env
+int	get_idx(char *s, char c);
+char	**constructor(char *s);
 void	free_env(t_env	*p);
 void	init_env(t_env **env, char **ev);
-void	display_env(t_env **env); //new
 
 //exit
 void	m_exit(int code, char *val);
+
+//export
+int		build_export(t_env *e);
+int		add_myenv(t_token *toks, t_env **myenv);
+
+//f_builtin
+int		export(t_token *t, t_env **myEnv);
 
 //ft_split
 char	**ft_split(char *s, char c);
@@ -77,6 +94,10 @@ char	*ft_strjoin_t(char *strt, char *mid, char *end);
 void	ft_strcpy(char *str, char *dest);
 
 //minishell
+int		s_exe(t_token *ts, t_env **e);
+
+//exe
+int		ex_cmd(t_token  *ts, t_env **e);
 
 //split_ws
 char	**splt_white(char *s);
@@ -84,14 +105,17 @@ int		is_white(char c);
 char	*word_dup(char *str, int start, int finish);
 
 //utils
+int		find_pipe(t_token *t);
 int		ft_cmp(char *o, char *t);
 char	*ft_strdup(char *str);
-int		ft_verif_line(char *line);
 int		is_empty_line(char *line);
-int		is_redir(char *s);
+void	ft_putstr(char *str);
+
+//verif
 int		is_builtin(char *s);
 int		is_cmd(char *s, t_env *env);
-void	ft_putstr(char *str); //new
+int		ft_verif_line(char *line);
+int		is_redir(char *s);
 
 //signals
 void	sigquit_handler(int signal);

@@ -6,11 +6,11 @@
 /*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 19:32:52 by acoste            #+#    #+#             */
-/*   Updated: 2024/08/23 19:39:19 by acoste           ###   ########.fr       */
+/*   Updated: 2024/08/26 19:07:37 by acoste           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	ft_strcpy(char *str, char *dest)
 {

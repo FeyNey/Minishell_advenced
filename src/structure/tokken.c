@@ -6,11 +6,11 @@
 /*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 17:16:34 by aglampor          #+#    #+#             */
-/*   Updated: 2024/08/23 19:44:01 by acoste           ###   ########.fr       */
+/*   Updated: 2024/08/26 19:07:33 by acoste           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static void	ft_addb_tok(t_token **p, t_token *new)
 {

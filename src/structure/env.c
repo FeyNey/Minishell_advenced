@@ -6,11 +6,11 @@
 /*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 15:38:59 by aglampor          #+#    #+#             */
-/*   Updated: 2024/08/24 21:26:08 by acoste           ###   ########.fr       */
+/*   Updated: 2024/08/27 15:24:49 by acoste           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	free_env(t_env	*p)
 {
@@ -26,6 +26,29 @@ void	free_env(t_env	*p)
 	}
 }
 
+int	get_idx(char *s, char c)
+{
+	int	i;
+
+	i = 0;
+	while (s[i] != c)
+		i++;
+	return (i);
+}
+
+char	**constructor(char *s)
+{
+	char	**build;
+	int		flag;
+
+	build = malloc(sizeof(char *) * 3);
+	flag = get_idx(s, '=');
+	build[0] = word_dup(s, 0, flag);
+	build[1] = word_dup(s, (flag + 1), ft_strlen(s));
+	return (build);
+}
+
+
 void	init_env(t_env **env, char **ev)
 {
 	char	**cpy_env;
@@ -34,38 +57,9 @@ void	init_env(t_env **env, char **ev)
 	cpy_env = ev;
 	while (*cpy_env)
 	{
-		tmp = ft_split(*cpy_env, '=');
+		tmp = constructor(*cpy_env);
 		ft_lstadd_back(env, ft_lstnew(tmp[0], tmp[1]));
 		ft_free_split(tmp);
 		cpy_env++;
 	}
-	display_env(env); //new
-}
-
-void	display_env(t_env **env) //new
-{
-	if (env[0] == NULL)
-	{
-		write (2, "env: ", 5);
-// ?		ft_putstr()
-		write (2, "No such file or directory\n)", 28);
-	}
-	while((*env)->next)
-	{
-		ft_putstr((*env)->key);
-		if ((*env)->value)
-		{
-			ft_putstr("=");
-			ft_putstr((*env)->value);
-		}
-		write(1, "\n", 1);
-		(*env) = (*env)->next;
-	}
-	ft_putstr((*env)->key);
-	if ((*env)->value)
-	{
-		ft_putstr("=");
-		ft_putstr((*env)->value);
-	}
-	write(1, "\n", 1);
 }
