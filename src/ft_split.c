@@ -6,11 +6,11 @@
 /*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/01 23:49:55 by aglampor          #+#    #+#             */
-/*   Updated: 2024/08/26 19:07:20 by acoste           ###   ########.fr       */
+/*   Updated: 2024/08/22 20:01:46 by acoste           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 int	ft_strlen(char *s)
 {

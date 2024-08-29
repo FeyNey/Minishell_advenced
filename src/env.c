@@ -6,11 +6,11 @@
 /*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 15:38:59 by aglampor          #+#    #+#             */
-/*   Updated: 2024/08/27 15:24:49 by acoste           ###   ########.fr       */
+/*   Updated: 2024/08/29 17:58:14 by acoste           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 void	free_env(t_env	*p)
 {
@@ -20,7 +20,8 @@ void	free_env(t_env	*p)
 	{
 		tmp = p->next;
 		free(p->key);
-		free(p->value);
+		if (p->value)
+			free(p->value);
 		free(p);
 		p = tmp;
 	}
@@ -59,7 +60,8 @@ void	init_env(t_env **env, char **ev)
 	{
 		tmp = constructor(*cpy_env);
 		ft_lstadd_back(env, ft_lstnew(tmp[0], tmp[1]));
-		ft_free_split(tmp);
+		if(tmp[0])
+			ft_free_split(tmp);
 		cpy_env++;
 	}
 }

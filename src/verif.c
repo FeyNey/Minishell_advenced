@@ -6,11 +6,11 @@
 /*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 19:47:14 by aglampor          #+#    #+#             */
-/*   Updated: 2024/08/26 18:54:17 by acoste           ###   ########.fr       */
+/*   Updated: 2024/08/29 14:31:11 by acoste           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 int	ft_verif_line(char *line)
 {
@@ -22,7 +22,7 @@ int	ft_verif_line(char *line)
 	sb = 0;
 	db = 0;
 	if (is_empty_line(line) == 1)
-		return (1);
+		return (0);
 	while (line[i])
 	{
 		if (line[i] == 34)
@@ -69,16 +69,14 @@ int	is_cmd(char *s, t_env *env)
 
 int	is_builtin(char *s)
 {
-	if (ft_cmp("echo", s) || ft_cmp("cd", s) || ft_cmp("pwd", s))
-		return (1);
-	if (ft_cmp("export", s) || ft_cmp("unset", s) || ft_cmp("env", s))
-		return (1);
-	if (ft_cmp("exit", s))
+	if (ft_cmp("echo", s) || ft_cmp("cd", s) || ft_cmp("pwd", s)
+		|| ft_cmp("export", s) || ft_cmp("unset", s) || ft_cmp("env", s)
+		|| ft_cmp("exit", s))
 		return (1);
 	return (0);
 }
 
-int	is_redir(char *s)
+int	t_redir(char *s)
 {
 	if (!ft_cmp("<", s))
 		return (RIN);

@@ -6,24 +6,33 @@
 /*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 14:59:27 by aglampor          #+#    #+#             */
-/*   Updated: 2024/08/27 15:35:47 by acoste           ###   ########.fr       */
+/*   Updated: 2024/08/28 18:04:22 by acoste           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
-
-int	find_pipe(t_token *t)
+#include "minishell.h"
+int	is_c(char *str, char c)
 {
 	int	i;
-	t_token	*temp;
 
 	i = 0;
-	temp = t;
-	while (temp && temp->type != PIPE)
+	while (str && str[i])
 	{
-		temp = temp->next;
+		if (str[i] == c)
+			return (1);
 		i++;
 	}
+	return (0);
+}
+
+
+int	c_find(char *str, char c)
+{
+	int	i;
+
+	i = 0;
+	while (str && str[i] != c)
+		i++;
 	return (i);
 }
 
@@ -59,29 +68,24 @@ char	*ft_strdup(char *str)
 	return (dup);
 }
 
+int	is_quote(char c)
+{
+	if (c == 34)
+		return (34);
+	else if (c == 39)
+		return (39);
+	return (0);
+}
+
 int	is_empty_line(char *line)
 {
 	int	i;
 
 	i = 0;
-	if (!line)
-		return (1);
 	while ((line[i] >= 9 && line[i] <= 13) || line[i] == 32)
 		i++;
 	if (line[i] == '\0')
 		return (1);
 	else
 		return (0);
-}
-
-void	ft_putstr(char *str)
-{
-	int i;
-
-	i = 0;
-	while (str[i])
-	{
-		write(1, &str[i], 1);
-		i++;
-	}
 }

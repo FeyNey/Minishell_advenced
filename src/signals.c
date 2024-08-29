@@ -1,32 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/08 22:13:05 by aglampor          #+#    #+#             */
-/*   Updated: 2024/08/27 15:39:23 by acoste           ###   ########.fr       */
+/*   Created: 2024/08/23 21:21:27 by acoste            #+#    #+#             */
+/*   Updated: 2024/08/24 17:27:25 by aglampor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
-/*
-void	m_exit(int code, char *val)
+#include "minishell.h"
+
+void	sigint_handler(int signal)
 {
-	if (code == 1)
-		return ;
-	if (code == 2)
+	(void)signal;
+	if (waitpid(-1, NULL, WNOHANG) == -1)
 	{
-		ft_putstr_fd("bash : synthax error near\n", 2);
-		ft_putstr_fd("unexpected token", 2);
+		write(1, "^C\n", 3);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
 	}
-	if (code == 126 || code == 127)
-		write(2, "bash: ", 6);
-	write(2, val, ft_lenstr(val));
-	if (code == 126)
-		write(2, ": Is a directory", 16);
-	if (code == 127)
-		write(2, ": command not found", 19);
 }
-*/
+
+void	sigquit_handler(int signal)
+{
+	(void)signal;
+}
+
+void	redirect_signals(void)
+{
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, sigquit_handler);
+}

@@ -1,36 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/23 21:21:27 by acoste            #+#    #+#             */
-/*   Updated: 2024/08/26 19:07:27 by acoste           ###   ########.fr       */
+/*   Created: 2024/08/28 12:07:01 by aglampor          #+#    #+#             */
+/*   Updated: 2024/08/29 17:15:48 by acoste           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+//#include "libft"
 
-void	sigint_handler(int signal)
+int	ft_strlen(char *s)
 {
-	(void)signal;
-	if (waitpid(-1, NULL, WNOHANG) == -1)
+	int	l;
+
+	l = 0;
+	while (s[l] != '\0')
+		l++;
+	return (l);
+}
+
+void	ft_putnstr(char *str, int n)
+{
+	int i;
+
+	i = 0;
+	while (i < n)
 	{
-		write(1, "^C\n", 3);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
+		write(1, &str[i], 1);
+		i++;
 	}
-}
-
-void	sigquit_handler(int signal)
-{
-	(void)signal;
-}
-
-void	redirect_signals(void)
-{
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, sigquit_handler);
 }

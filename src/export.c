@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: aglampor <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 20:28:06 by aglampor          #+#    #+#             */
-/*   Updated: 2024/08/26 18:53:38 by acoste           ###   ########.fr       */
+/*   Updated: 2024/08/26 17:35:10 by aglampor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 static int	is_in(int idx, int *tri)
 {
 	int	i;
 
 	i = 0;
-	while (tri[i] != -1)
-	{
+	while (tri[i] != -1) 
+	{ 
 		if (tri[i] == idx)
 			return 1;
 		i++;
@@ -26,7 +26,7 @@ static int	is_in(int idx, int *tri)
 	return 0;
 }
 
-int	add_myenv(t_token *toks, t_env **myenv)
+int	add_myenv(t_token *toks, t_env **myenv) 
 {
 	(void)toks;
 	(void)*myenv;

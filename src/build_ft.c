@@ -6,18 +6,23 @@
 /*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 14:59:27 by aglampor          #+#    #+#             */
-/*   Updated: 2024/08/26 19:07:07 by acoste           ###   ########.fr       */
+/*   Updated: 2024/08/29 17:52:44 by acoste           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 void	ft_lstadd_back(t_env **lst, t_env *new)
 {
 	t_env	*e;
 
-	if (!*lst)
+	if (!new)
+		return ;
+	if (!(*lst))
+	{
 		*lst = new;
+		return ;
+	}
 	else
 	{
 		e = ft_lstlast(*lst);

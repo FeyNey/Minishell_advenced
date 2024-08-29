@@ -6,7 +6,7 @@
 /*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 15:38:59 by aglampor          #+#    #+#             */
-/*   Updated: 2024/08/27 17:19:06 by acoste           ###   ########.fr       */
+/*   Updated: 2024/08/29 17:17:33 by acoste           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,16 @@
 # define CMD 7
 # define PIPE 8
 
+
+//local_var
+typedef struct s_local_var
+{
+	char	*key;
+	int		*value;
+	struct	s_local_var	*next;
+}	t_lvar;
+
+
 //token
 typedef struct s_token
 {
@@ -47,15 +57,17 @@ typedef struct s_environement
 	char					*key;
 	char					*value;
 	int						index;
-	int						pid;
 	struct s_environement	*next;
 }	t_env;
 
-//alexis
-//echo
+//bagage
+typedef struct  s_bag
+{
+	struct s_environement *env;
+	struct s_token *tokens;
+	struct s_local_var local_v;
+}	t_bag;
 
-//ft_env
-void	display_env(t_env **env);
 
 //build_ft
 void	ft_lstadd_back(t_env **alst, t_env *new);
@@ -74,30 +86,42 @@ void	init_env(t_env **env, char **ev);
 void	m_exit(int code, char *val);
 
 //export
-int		build_export(t_env *e);
-int		add_myenv(t_token *toks, t_env **myenv);
+int	build_export(t_env *e);
+int     add_myenv(t_token *toks, t_env **myenv);
 
 //f_builtin
-int		export(t_token *t, t_env **myEnv);
+int     export(t_token *t, t_env **myEnv);
 
-//ft_split
+//split_CMD
 char	**ft_split(char *s, char c);
+char	**split_input(char *s);
 void	ft_free_split(char **split);
 int		ft_strlen(char *s);
 
-//tokken
+//ft
+
+//token
 void	printtok(t_token **t);
-void	build_tokens(char *line, t_token **t, t_env *env);
+void	build_tokens(char *line, t_bag **bag);
+
+//tok_utils
+int	type_redir(char *cmd);
+int	len_redir(char *str);
+int	end_tok(char *s);
+void	ft_addb_tok(t_token **p, t_token *new);
+int	type_tok(char *s, t_env *env);
+int	end_cmd(char *s);
+void	free_tokens(t_token *p);
 
 //triple_join
 char	*ft_strjoin_t(char *strt, char *mid, char *end);
 void	ft_strcpy(char *str, char *dest);
 
 //minishell
-int		s_exe(t_token *ts, t_env **e);
+int     s_exe(t_token *ts, t_env **e);
 
 //exe
-int		ex_cmd(t_token  *ts, t_env **e);
+int     ex_cmd(t_token  *ts, t_env **e);
 
 //split_ws
 char	**splt_white(char *s);
@@ -105,10 +129,12 @@ int		is_white(char c);
 char	*word_dup(char *str, int start, int finish);
 
 //utils
-int		find_pipe(t_token *t);
+int		is_c(char *str, char c);
+int		find_c(char *str, char c);
 int		ft_cmp(char *o, char *t);
 char	*ft_strdup(char *str);
 int		is_empty_line(char *line);
+int		is_quote(char c);
 void	ft_putstr(char *str);
 
 //verif

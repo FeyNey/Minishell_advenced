@@ -6,11 +6,11 @@
 /*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 19:51:30 by aglampor          #+#    #+#             */
-/*   Updated: 2024/08/26 19:07:29 by acoste           ###   ########.fr       */
+/*   Updated: 2024/08/23 16:24:34 by acoste           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 int	is_white(char c)
 {
