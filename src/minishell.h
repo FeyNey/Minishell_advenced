@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 15:38:59 by aglampor          #+#    #+#             */
-/*   Updated: 2024/08/29 17:17:33 by acoste           ###   ########.fr       */
+/*   Updated: 2024/09/09 23:35:41 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,4 +147,19 @@ int		is_redir(char *s);
 void	sigquit_handler(int signal);
 void	sigint_handler(int signal);
 void	redirect_signals(void);
+
+//clear_quote2
+int	ft_strncmp(char *s1, char *s2, int n);
+int tok_len(t_token **tok);
+void	clear_token(t_token **tok, t_env **env);
+void	supp_quote(t_token **tok, char **str);
+char *supp_quote2(t_token **tok, char *str);
+void	replace_$(t_token *tok, t_env **env, char **str);
+int	is_between_quote_and_has_$(char *word);
+char *replace_$2(char *str, t_env **env);
+char *replace_$3(char *str, t_env **env, int i, int j);
+char *replace_venv(char *str, int i, int j, char *value);
+int	is_env_char(char c);
+char	*ft_malloc(int len);
+
 #endif

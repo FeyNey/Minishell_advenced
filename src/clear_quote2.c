@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:00:59 by alexis            #+#    #+#             */
-/*   Updated: 2024/09/05 21:56:54 by alexis           ###   ########.fr       */
+/*   Updated: 2024/09/09 23:49:22 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,24 @@ int	ft_strncmp(char *s1, char *s2, int n)
 			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 	}
 	return (0);
+}
+
+char	*ft_malloc(int len)
+{
+	char	*new;
+	int i;
+
+	i = 0;
+	new = malloc(sizeof(char) * (len + 1));
+	if (!new)
+		return (NULL);
+	new[len] = '\0';
+	while (i < len)
+	{
+		new[i] = '\0';
+		i++;
+	}
+	return (new);
 }
 
 //utils
@@ -64,7 +82,6 @@ void	supp_quote(t_token **tok, char **str)
 {
 	char *new;
 	int i;
-	int j;
 
 	i = 0;
 	while (str[i])
@@ -84,7 +101,8 @@ char *supp_quote2(t_token **tok, char *str)
 	int max;
 	int i;
 	int j;
-
+	
+	(void)tok;
 	max = ft_strlen(str);
 	max = max - 2;
 	new = ft_malloc(ft_strlen(str) - 2);
@@ -199,21 +217,22 @@ char *replace_$3(char *str, t_env **env, int i, int j)
 	f = 0;
 	while ((*env)->next)
 	{
-		if (ft_strncmp(str + i, (*env)->key, j) == 0);
+		if (ft_strncmp(str + i, (*env)->key, j) == 0)
 		{
-			new = replace_venv(str, j, (*env)->value, new); // changer la variable env apres le $ numero j si new existe, le free et en remalloc un
+			new = replace_venv(str, i, j, (*env)->value); // changer la variable env apres le $ numero j si new existe, le free et en remalloc un
 			f = 1;
 		}
 		(*env) = (*env)->next;
 	}
-	if (ft_strncmp(str + i, (*env)->key, j) == 0);
+	if (ft_strncmp(str + i, (*env)->key, j) == 0)
 	{
-		new = replace_venv(str, j, (*env)->value, new); // changer la variable env apres le $ numero j si new existe, le free et en remalloc un
+		new = replace_venv(str, i, j, (*env)->value); // changer la variable env apres le $ numero j si new existe, le free et en remalloc un
 		f = 1;
 	}
 	if (f == 0)
 			new = replace_venv(str, 0, 0, new);
-	i++;
+	i++; // ??
+	return (new);
 }
 
 char *replace_venv(char *str, int i, int j, char *value)
@@ -250,6 +269,7 @@ char *replace_venv(char *str, int i, int j, char *value)
 		i++;
 	}
 	new[j] = '\0';
+	return (new);
 }
 
 /*reprendre ici, 
@@ -261,9 +281,6 @@ il reste a comparer tout l'environnement, 	remplacer si je tomber sur un element
 
 int	is_env_char(char c)
 {
-	int i;
-
-	i = 0;
 	if ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'z') 
 		|| (c >= 'A' && c <= 'Z') || (c == '_'))
 		return (0);

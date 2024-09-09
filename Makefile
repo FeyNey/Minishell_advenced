@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+         #
+#    By: alexis <alexis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/27 15:05:19 by aglampor          #+#    #+#              #
-#    Updated: 2024/08/28 14:18:51 by aglampor         ###   ########.fr        #
+#    Updated: 2024/09/09 23:48:51 by alexis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ SRC_FILES = build_ft.c\
 			token.c\
 			utils.c\
 			triple_join.c\
+			clear_quote2.c\
 			signals.c
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
