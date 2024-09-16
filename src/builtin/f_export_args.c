@@ -6,7 +6,7 @@
 /*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 20:28:06 by aglampor          #+#    #+#             */
-/*   Updated: 2024/09/15 22:37:37 by acoste           ###   ########.fr       */
+/*   Updated: 2024/09/16 12:49:13 by acoste           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,12 @@ int	is_in_ev(char *arg, t_env *myev)
 	int		targ;
 
 	targ = 0;
-	if ((flag = find_c(arg, '=')) != -1)
-		k = word_dup(arg , 0, flag);
-	else
-		k = arg;
+	flag = 0;
+	while (is_env_char(arg[flag]) == 0)
+		flag++;
+	// if (flag == 0)
+	// 	return (-1);
+	k = word_dup(arg , 0, flag);
 	while (myev)
 	{
 		if (!ft_cmp(myev->key, k))
@@ -50,7 +52,7 @@ int	is_in_ev(char *arg, t_env *myev)
 		targ++;
 		myev = myev->next;
 	}
-	if (flag >= 0)
+	if (k)
 		free(k);
 	return (-1);
 }

@@ -6,7 +6,7 @@
 /*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:00:59 by alexis            #+#    #+#             */
-/*   Updated: 2024/09/16 01:36:51 by acoste           ###   ########.fr       */
+/*   Updated: 2024/09/16 14:22:38 by acoste           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,8 @@ void	replace_$(t_token *tok, t_env **env, char **str)
 		if (i == 1)
 		{
 			new = replace_$2(tok->value[j], env);
-			free(tok->value[j]);
+//			if (tok->value[j])
+//				free(tok->value[j]); //normalement deja fait
 			tok->value[j] = new;
 		}
 		else
@@ -205,10 +206,13 @@ char *replace_$2(char *str, t_env **env)
 			i++;
 		if (str[i] == '$')
 		{
-			while (is_env_char(str[j] == 0) && str[j])
+			j = i + 1;
+			while ((is_env_char(str[j]) == 0) && (str[j]))
 				j++;
 			new = replace_$3(str, env, i, j);
-			i++;
+			free(str);
+			str = new;
+			i = 0;
 		}
 	}
 	return (new);
@@ -240,11 +244,9 @@ char *replace_$3(char *str, t_env **env, int i, int j)
 
 	f = is_in_ev(str + i + 1, *env);
 	if (f >= 0)
-	{
 		new = replace_venv(str, i, j, found_in_env(env, f));
-	}
 	if (f == -1)
-		new = skip_venv(str, j);
+		new = skip_venv(str, i, j);
 	return (new);
 }
 
@@ -253,17 +255,6 @@ char *found_in_env(t_env **env, int index)
 //	t_env *tmp;
 	int i;
 
-/*	i = 0;
-	tmp = *env;
-	while (*env)
-	{
-		*env = (*env)->next;
-		i++;
-	}
-	if (i > index || index < 0)
-		return (0);
-	(*env) = tmp;
-*/
 	i = 0;
 	while (i < index)
 	{
@@ -273,7 +264,7 @@ char *found_in_env(t_env **env, int index)
 	return ((*env)->value);
 }
 
-char *skip_venv(char *str, int j)
+char	*skip_venv(char *str, int i, int j)
 {
 	int x;
 	int y;
@@ -281,6 +272,7 @@ char *skip_venv(char *str, int j)
 
 	x = 0;
 	y = 0;
+	j = i - j;
 	new = ft_malloc(ft_strlen(str) - j);
 	new[ft_strlen(str) - j] = '\0';
 	while (str[x] != '$')
@@ -301,13 +293,14 @@ char *skip_venv(char *str, int j)
 	new[y] = '\0';
 	return (new);
 }
-char *replace_venv(char *str, int i, int j, char *value)
+char	*replace_venv(char *str, int i, int j, char *value)
 {
 	int x;
 	int y;
 	char *new;
 
 	x = 0;
+	j = j - i;
 	new = ft_malloc((ft_strlen(str) - j) + (ft_strlen(value)));
 	new[(ft_strlen(str) - j) + (ft_strlen(value))] = '\0';
 	i = 0;
@@ -325,7 +318,7 @@ char *replace_venv(char *str, int i, int j, char *value)
 		y++;
 		x++;
 	}
-	i = i + j;
+	i = i + j - 1;
 	while (str[i])
 	{
 		new[y] = str[i];
