@@ -3,37 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 14:59:27 by aglampor          #+#    #+#             */
-/*   Updated: 2024/09/09 23:35:47 by alexis           ###   ########.fr       */
+/*   Updated: 2024/09/03 17:54:08 by aglampor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include "../minishell.h"
 
-#include "minishell.h"
-int	is_c(char *str, char c)
+int	find_c(char *str, char c)
 {
 	int	i;
-
+	
 	i = 0;
-	while (str && str[i])
+	while (str[i])
 	{
 		if (str[i] == c)
-			return (1);
+			return (i);
 		i++;
 	}
-	return (0);
-}
-
-
-int	c_find(char *str, char c)
-{
-	int	i;
-
-	i = 0;
-	while (str && str[i] != c)
-		i++;
-	return (i);
+	return (-1);
 }
 
 int	ft_cmp(char *o, char *t)

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	ft_strlen(char *s)
 {
@@ -27,6 +27,8 @@ void	ft_free_split(char **split)
 	int	i;
 
 	i = 0;
+	if (!split)
+		return;
 	while (split[i])
 	{
 		free(split[i]);

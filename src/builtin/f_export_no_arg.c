@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export.c                                           :+:      :+:    :+:   */
+/*   export_no_arg.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aglampor <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -9,8 +9,7 @@
 /*   Updated: 2024/08/26 17:35:10 by aglampor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "minishell.h"
+#include "../minishell.h"
 
 static int	is_in(int idx, int *tri)
 {
@@ -24,14 +23,6 @@ static int	is_in(int idx, int *tri)
 		i++;
 	}
 	return 0;
-}
-
-int	add_myenv(t_token *toks, t_env **myenv) 
-{
-	(void)toks;
-	(void)*myenv;
-	printf("have to do\n");
-	return (0);
 }
 
 static void	add_croiss(t_env *e, int *tri)
@@ -63,7 +54,7 @@ static int      w_export(t_env *myenv)
 {
         write(1, "declare -x ", 11);
         write(1 ,myenv->key, ft_strlen(myenv->key));
-        if (myenv->value != NULL)
+        if (myenv->value[0] != '\0')
 	{
 		write(1 , "=\"", 2);
                 write(1 ,myenv->value, ft_strlen(myenv->value));
@@ -79,7 +70,7 @@ static void	write_croiss(t_env *e, int *order)
 	t_env	*temp;
 
 	i = 0;
-	while (order[i])
+	while (order[i] != -1)
 	{
 		temp = e;
 		while (temp->index != order[i])
@@ -89,14 +80,22 @@ static void	write_croiss(t_env *e, int *order)
 	}
 }
 
-int	build_export(t_env *e)
+int	export_no_arg(t_env *e)
 {
 	int	*ordo;
 	int	i;
+	int	j;
 
 	i = (ft_lstlast(e))->index;
 	ordo = malloc(sizeof(int) * (i + 2));
-	ordo[i + 1] = -1;
+	if (!ordo)
+		return (1);
+	j = 0;
+	while ((j <= i + 1))
+	{
+		ordo[j] = -1;
+		j++;
+	}
 	add_croiss(e, ordo);
 	write_croiss(e, ordo);
 	free(ordo);

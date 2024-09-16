@@ -6,11 +6,11 @@
 /*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 15:48:54 by aglampor          #+#    #+#             */
-/*   Updated: 2024/08/29 16:27:43 by acoste           ###   ########.fr       */
+/*   Updated: 2024/09/15 21:11:00 by acoste           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void    free_tokens(t_token  *p)
 {
@@ -19,7 +19,8 @@ void    free_tokens(t_token  *p)
         while (p)
         {
                 tmp = p->next;
-		ft_free_split(p->value);
+		if (p->value)
+			ft_free_split(p->value);
                 free(p);
                 p = tmp;
         }
@@ -58,18 +59,20 @@ int	end_tok(char *s)
 
 int	end_cmd(char *s)
 {
-	int	quote;
+	int flag;
+	int q;
 	int	i;
 
+	flag = 0;
 	i = 0;
-	if ((quote = is_quote(s[i])))
-		i++;
 	while (s[i])
 	{
-		if (quote && s[i] == quote)
-			return (i+1);
-		if (!quote && ((is_quote(s[i])) || is_white(s[i])))
+		if (!flag && (q = is_quote(s[i])))
+			flag = q;
+		else if (!flag && is_white(s[i]))
 			return (i);
+		else if (flag && s[i] == flag)
+			return (i + 1);
 		i++;
 	}
 	return (i);
@@ -93,20 +96,11 @@ void	ft_addb_tok(t_token **p, t_token *new)
 
 int	type_tok(char *s, t_env *env)
 {
-	int	val;
-
-//	printf("%d\n", s[0]);
-	if ((val = open(s, O_RDONLY, 0776)) != -1)
-	{
-		close(val);
-		return (FD);
-	}
-	else if (s[0] == 45)
+//	printf("type_tok\n");
+	if (s[0] == 45)
 		return (OPTION);
 	else if (s[0] == '/')
 		return (DIRECTORY);
-	else if ((val = type_redir(s)) != 0)
-		return (val);
 	else if (is_builtin(s))
 		return (BUILTIN);
 	else if (is_cmd(s, env))

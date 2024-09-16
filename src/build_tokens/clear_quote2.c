@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   clear_quote2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:00:59 by alexis            #+#    #+#             */
-/*   Updated: 2024/09/09 23:49:22 by alexis           ###   ########.fr       */
+/*   Updated: 2024/09/16 01:36:51 by acoste           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 //utils
 
@@ -62,21 +62,21 @@ int tok_len(t_token **tok)
 
 //replace $ | than | supp quote
 
-void	clear_token(t_token **tok, t_env **env) // valeur de retour pour l erreur ?
-{
-	int i;
-	int j;
-	
-	i = 0;
-	j = tok_len(tok);
-	while (i < j)
-	{
-		replace_$(*tok, env, (*tok)->value); //verif
-		supp_quote(tok, (*tok)->value); //verif
-		(*tok) = (*tok)->next;
-		i++;
-	}
-}
+// void	clear_token(t_token **tok, t_env **env) // valeur de retour pour l erreur ?
+// {
+// 	int i;
+// 	int j;
+
+// 	i = 0;
+// 	j = tok_len(tok);
+// 	while (i < j)
+// 	{
+// 		replace_$(*tok, env, (*tok)->value); //verif
+// 		supp_quote(tok, (*tok)->value); //verif
+// 		(*tok) = (*tok)->next;
+// 		i++;
+// 	}
+// }
 
 void	supp_quote(t_token **tok, char **str)
 {
@@ -95,13 +95,13 @@ void	supp_quote(t_token **tok, char **str)
 	}
 }
 
-char *supp_quote2(t_token **tok, char *str)
+char	*supp_quote2(t_token **tok, char *str)
 {
 	char *new;
 	int max;
 	int i;
 	int j;
-	
+
 	(void)tok;
 	max = ft_strlen(str);
 	max = max - 2;
@@ -120,15 +120,13 @@ char *supp_quote2(t_token **tok, char *str)
 	return (new);
 }
 
-// replace_$
-// si entre quote
-
 void	replace_$(t_token *tok, t_env **env, char **str)
 {
 	int i;
 	int j;
 	char *new;
-	
+
+	(void)str;
 	i = 0;
 	j = 0;
 	while (str[j])
@@ -136,11 +134,12 @@ void	replace_$(t_token *tok, t_env **env, char **str)
 		i =	is_between_quote_and_has_$(str[j]);
 		if (i == 1)
 		{
-			new = replace_$2(str[j], env);
-			free(str[j]);
+			new = replace_$2(tok->value[j], env);
+			free(tok->value[j]);
 			tok->value[j] = new;
 		}
-		j++;
+		else
+			j++;
 	}
 }
 
@@ -148,21 +147,48 @@ int	is_between_quote_and_has_$(char *word)
 {
 	int i;
 	int f;
+	char prev;
 
 	i = 0;
 	f = 0;
+	prev = word[i];
 	while (word[i])
 	{
-		if (word[i] == '$')
+		if (word[i] == 39 && not_between_quote(word, word[i], i) == 1)
+		{
+			i++;
+			while (word[i] != 39 && word[i] != '\0')
+				i++;
+		}
+		if (word[i] == '$' && prev != 92)
 			f = 1;
+		prev = word[i];
 		i++;
 	}
-	if (word[0] == 34 && f == 1) // ?
-		return (1); // remplace
-	else if (word[0] == 39)
-		return (2); // remplace pas
+	if (f == 1)
+		return (1);
 	else
-		return (0); // remplace pas
+		return (0);
+}
+
+int not_between_quote(char *str, char c, int j)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == 34)
+		{
+			i++;
+			while (str[i] != 34)
+				i++;
+		}
+		if (str[i] == c && i == j)
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 char *replace_$2(char *str, t_env **env)
@@ -173,19 +199,17 @@ char *replace_$2(char *str, t_env **env)
 
 	i = 0;
 	j = 0;
-	
-	while (i < ft_strlen(str))
+	while (str[i])
 	{
-		while (str[i] != '$')
+		while (str[i] != '$' && str[i])
 			i++;
 		if (str[i] == '$')
 		{
-			while (is_env_char(str[j] == 0))
+			while (is_env_char(str[j] == 0) && str[j])
 				j++;
 			new = replace_$3(str, env, i, j);
-		}
-		if (str[i] != '\0')
 			i++;
+		}
 	}
 	return (new);
 }
@@ -214,74 +238,114 @@ char *replace_$3(char *str, t_env **env, int i, int j)
 	char *new;
 	int f;
 
-	f = 0;
-	while ((*env)->next)
+	f = is_in_ev(str + i + 1, *env);
+	if (f >= 0)
 	{
-		if (ft_strncmp(str + i, (*env)->key, j) == 0)
-		{
-			new = replace_venv(str, i, j, (*env)->value); // changer la variable env apres le $ numero j si new existe, le free et en remalloc un
-			f = 1;
-		}
-		(*env) = (*env)->next;
+		new = replace_venv(str, i, j, found_in_env(env, f));
 	}
-	if (ft_strncmp(str + i, (*env)->key, j) == 0)
-	{
-		new = replace_venv(str, i, j, (*env)->value); // changer la variable env apres le $ numero j si new existe, le free et en remalloc un
-		f = 1;
-	}
-	if (f == 0)
-			new = replace_venv(str, 0, 0, new);
-	i++; // ??
+	if (f == -1)
+		new = skip_venv(str, j);
 	return (new);
 }
 
+char *found_in_env(t_env **env, int index)
+{
+//	t_env *tmp;
+	int i;
+
+/*	i = 0;
+	tmp = *env;
+	while (*env)
+	{
+		*env = (*env)->next;
+		i++;
+	}
+	if (i > index || index < 0)
+		return (0);
+	(*env) = tmp;
+*/
+	i = 0;
+	while (i < index)
+	{
+		(*env) = (*env)->next;
+		i++;
+	}
+	return ((*env)->value);
+}
+
+char *skip_venv(char *str, int j)
+{
+	int x;
+	int y;
+	char *new;
+
+	x = 0;
+	y = 0;
+	new = ft_malloc(ft_strlen(str) - j);
+	new[ft_strlen(str) - j] = '\0';
+	while (str[x] != '$')
+	{
+		new[y] = str[x];
+		y++;
+		x++;
+	}
+	x++;
+	while (is_env_char(str[x]) == 0)
+		x++;
+	while (str[x])
+	{
+		new[y] = str[x];
+		y++;
+		x++;
+	}
+	new[y] = '\0';
+	return (new);
+}
 char *replace_venv(char *str, int i, int j, char *value)
 {
 	int x;
+	int y;
 	char *new;
-	
+
 	x = 0;
-//	while (str[i] != '$' || str[i])
-//		i++;
-//	if (str[i] == '\0')
-//		write (1, "Unprevius beavior, no $ in the sentence\n", 40);
 	new = ft_malloc((ft_strlen(str) - j) + (ft_strlen(value)));
 	new[(ft_strlen(str) - j) + (ft_strlen(value))] = '\0';
 	i = 0;
-	j = 0;
+	y = 0;
 	while (str[i] != '$')
 	{
-		new[j] = str[i];
+		new[y] = str[i];
 		i++;
-		j++;
+		y++;
 	}
 	i++;
 	while (value[x])
 	{
-		new[j] = value[x];
-		j++;
+		new[y] = value[x];
+		y++;
 		x++;
 	}
+	i = i + j;
 	while (str[i])
 	{
-		new[j] = str[i];
-		j++;
+		new[y] = str[i];
+		y++;
 		i++;
 	}
-	new[j] = '\0';
+	new[y] = '\0';
 	return (new);
 }
 
-/*reprendre ici, 
+/*reprendre ici,
 
 il reste a comparer tout l'environnement, 	remplacer si je tomber sur un element valide,
-											remplacer si je ne tombe sur rien;	
+											remplacer si je ne tombe sur rien;
 
 */
 
 int	is_env_char(char c)
 {
-	if ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'z') 
+	if ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'z')
 		|| (c >= 'A' && c <= 'Z') || (c == '_'))
 		return (0);
 	else

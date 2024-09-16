@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static int	count_wrd_input(char *str)
 {
@@ -66,6 +66,7 @@ char	**split_input(char *str)
                 return (0);
         arr[words] = 0;
         cmd_split(arr ,str);
+	free(str);
         return (arr);
 }
 

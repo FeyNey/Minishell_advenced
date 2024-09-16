@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token.c                                            :+:      :+:    :+:   */
+/*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 17:16:34 by aglampor          #+#    #+#             */
-/*   Updated: 2024/08/29 16:31:48 by acoste           ###   ########.fr       */
+/*   Updated: 2024/09/15 23:55:37 by acoste           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static int	bt_u(char *l, t_bag **bag)
 {
@@ -22,36 +22,50 @@ static int	bt_u(char *l, t_bag **bag)
 	if (!new)
 		return (-1);
 	j = end_tok(l);
-//	printf("end token %d\n",j);
 	l_child = word_dup(l, 0, j);
-//	printf("l_child %s\n",l_child);
 	new->value = split_input(l_child);
-	free(l_child);
-	new->type = type_tok(new->value[0], (*bag)->env); //verif pas bon
+	new->type = type_tok(new->value[0], (*bag)->env);
 	new->next = 0;
+	new->fdin = 0;
+	new->fdout = 0;
 	ft_addb_tok(&((*bag)->tokens), new);
 	return (j);
 }
 
+static void	clean_tok(t_token **tok, t_env **env, t_bag **bag) //valeur de retour pour l'erreur
+{
+	(void)env;
+	(void)bag;
+	t_token *tmp;
+
+	tmp = *tok;
+	remove_redir(&(*bag)->tokens);
+	while ((*tok))
+	{
+		replace_$(*tok, env, (*tok)->value);
+		(*tok) = (*tok)->next;
+	}
+	*tok = tmp;
+}
+
 void	printtok(t_token **t)
 {
-	t_token	*temp;
-	int i;
+	t_token	*tmp;
+	int	i;
 
-	temp = *t;
-	while (temp)
+	tmp = *t;
+	while (tmp)
 	{
-		printf("\nTOKEN\n");
 		i = 0;
-		while (temp->value[i])
+		printf(MAGENTA "\n || Token ||" RESET "\n");
+		while (tmp->value[i])
 		{
-			printf("value [%i] %s\n", i, temp->value[i]);
+			printf("value[%i] %s\n", i, tmp->value[i]);
 			i++;
 		}
-//		printf("type %d\n", temp->type);
-		temp = temp->next;
+//		printf("type %d\n",tmp->type);
+		tmp = tmp->next;
 	}
-	printf("\n");
 }
 
 void	build_tokens(char *line, t_bag **bag)
@@ -66,5 +80,9 @@ void	build_tokens(char *line, t_bag **bag)
 		if (line[i])
 			i += bt_u(&line[i], bag);
 	}
+	printf(CYAN "\nAvant Clean" RESET);
+	printtok(&(*bag)->tokens);
+	clean_tok(&((*bag)->tokens), &((*bag)->env), bag);
+	printf(CYAN "\nApres Clean" RESET);
 	printtok(&(*bag)->tokens);
 }
