@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 15:38:59 by aglampor          #+#    #+#             */
-/*   Updated: 2024/09/14 18:40:20 by acoste           ###   ########.fr       */
+/*   Updated: 2024/09/18 15:46:27 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	minishell(t_bag **bag)
 			clear_history();
 			return(free(line), 0);
 		}
-		if (is_empty_line(line) == 0)
+		if (!is_empty_line(line))
 			add_history(line);
 		(*bag)->tokens = NULL;	//fonction reset_token(bag->tokens) qui free (et pointe vers null)
 		build_tokens(line, bag);
@@ -42,8 +42,8 @@ int	s_exe(t_token *t, t_env **menv)
 {
 	if (t->type == BUILTIN || t->type == CMD)
 		return (ex_cmd(t, menv));
-//	else
-//		write(1, "Reflexion++\n", 12);
+	else
+		write(1, "Reflexion++\n", 12);
 	return (0);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 15:38:59 by aglampor          #+#    #+#             */
-/*   Updated: 2024/09/16 14:22:23 by acoste           ###   ########.fr       */
+/*   Updated: 2024/09/18 15:46:14 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,14 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
+//lvar
+typedef struct s_local_var
+{
+	char	*key;
+	int		*value;
+	struct	s_local_var	*next;
+}	t_lvar;
+
 //env
 typedef struct s_environement
 {
@@ -60,11 +68,12 @@ typedef struct s_environement
 }	t_env;
 
 //bagage
-typedef struct s_bag
+typedef struct  s_bag
 {
-	struct  s_environement  *env;
-	struct  s_token *tokens;
-}	t_bag;
+        struct  s_environement  *env;
+        struct  s_token *tokens;
+	struct s_local_var *local_v;
+}       t_bag;
 
 
 //build_ft
@@ -90,6 +99,9 @@ int     is_in_ev(char *arg, t_env *myev);
 //cleaning
 void    refresh_tok(t_token **t, char *fic, int type_redir);
 void    remove_redir(t_token **ts);
+void	remove_quote(t_token **t);
+char	*dup_no_quote(char *cmd);
+int	mal_no_quote(char *cmd);
 int     open_file(char *fic_name, int redir);
 int	redir_type(char *cmd);
 char     **redir_realloc(t_token **token);
@@ -140,7 +152,7 @@ int	find_c(char *str, char c);
 int		ft_cmp(char *o, char *t);
 char	*ft_strdup(char *str);
 int		is_empty_line(char *line);
-int		is_quote(char c);
+int     is_quote(char c);
 
 //verif
 int		is_builtin(char *s);
@@ -166,4 +178,6 @@ char	*replace_venv(char *str, int i, int j, char *value);
 char	*found_in_env(t_env **env, int index);
 char	*skip_venv(char *str, int i, int j);
 int		not_between_quote(char *str, char c, int j);
+int		is_in_ev_tok(char *arg, t_env *myev);
+
 #endif

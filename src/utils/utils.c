@@ -14,12 +14,15 @@
 int	find_c(char *str, char c)
 {
 	int	i;
+	char	prev;
 	
 	i = 0;
+	prev = '\0';
 	while (str[i])
 	{
-		if (str[i] == c)
+		if (str[i] == c && prev != '\\')
 			return (i);
+		prev = str[i];
 		i++;
 	}
 	return (-1);

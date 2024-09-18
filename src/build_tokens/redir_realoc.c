@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   redir_realoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: aglampor <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 15:46:24 by aglampor          #+#    #+#             */
-/*   Updated: 2024/09/15 20:57:17 by acoste           ###   ########.fr       */
+/*   Updated: 2024/09/03 18:09:39 by aglampor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "../minishell.h"
 
 static int 	count_redir(char** cmds)
@@ -21,16 +20,16 @@ static int 	count_redir(char** cmds)
 	nb_r = 0;
 	while (cmds[i])
 	{
-		if (redir_type(cmds[i]))
-		{
-				nb_r++;
-				if (!owr(cmds[i]))
-				{
-						nb_r++;
-						i++;
-				}
+                if (redir_type(cmds[i]))
+                {
+                        nb_r++;
+                        if (!owr(cmds[i]))
+                        {
+                                nb_r++;
+                                i++;
+                        }
 		}
-		i++;
+                i++;
 	}
 	return(i - nb_r);
 }
@@ -53,37 +52,37 @@ int	handle_redir(char *s1, char *s2, int type, t_token **p_tok)
 }
 
 
-char	**redir_realloc(t_token **token)
+char     **redir_realloc(t_token **token)
 {
-	int		i;
-	int		j;
-	int		type;
-	char	**stash;
+        int     i;
+	int	j;
+	int	type;
+        char    **stash;
 	char	**tmp;
 
-	i = 0;
+        i = 0;
 	j = 0;
 	tmp = (*token)->value;
-	stash = malloc(sizeof(char *) * (count_redir((*token)->value) + 1));
+        stash = malloc(sizeof(char *) * (count_redir((*token)->value) + 1));
 	printf("%d\n",count_redir((*token)->value));
 	if (!stash)
 		return (0);
-	while (tmp[j])
-	{
-		if ((type = redir_type(tmp[j])))
+        while (tmp[j])
+        {
+                if ((type = redir_type(tmp[j])))
 			j += handle_redir(tmp[j], tmp[j + 1], type, token);
-		else
-		{
+                else
+                {
 			printf("%d index tmp\n",j);
-			stash[i] = ft_strdup(tmp[j]);
+                        stash[i] = ft_strdup(tmp[j]);
 			printf("%s\n",stash[i]);
-			j++;
-			i++;
-		}
-	}
+                        j++;
+                        i++;
+                }
+        }
 	stash[i] = 0;
 	if (((*token)->value))
 		ft_free_split((*token)->value);
-	return (stash);
+        return (stash);
 }
 

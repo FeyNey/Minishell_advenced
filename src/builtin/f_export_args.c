@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   f_export_args.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 20:28:06 by aglampor          #+#    #+#             */
-/*   Updated: 2024/09/16 12:49:13 by acoste           ###   ########.fr       */
+/*   Updated: 2024/09/18 12:43:00 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,10 @@ int	is_in_ev(char *arg, t_env *myev)
 	int		targ;
 
 	targ = 0;
-	flag = 0;
-	while (is_env_char(arg[flag]) == 0)
-		flag++;
-	// if (flag == 0)
-	// 	return (-1);
-	k = word_dup(arg , 0, flag);
+	if ((flag = find_c(arg, '=')) != -1)
+		k = word_dup(arg , 0, flag);
+	else
+		k = arg;
 	while (myev)
 	{
 		if (!ft_cmp(myev->key, k))
@@ -52,7 +50,7 @@ int	is_in_ev(char *arg, t_env *myev)
 		targ++;
 		myev = myev->next;
 	}
-	if (k)
+	if (flag >= 0)
 		free(k);
 	return (-1);
 }
@@ -76,14 +74,14 @@ static void	srch_replace(t_env **menv, int id, char *arg)
 }
 
 /* 'valable' selon export soit verif ur 1er caracter diff de chiff ou _ puis etre que des chiffre ou des _*/
-static int	is_valable(char	*arg)
+static int	env_valable(char *arg)
 {
 	int	i;
 
 	if (!arg)
 		return (0);
 	i = 0;
-	if ((arg[0] >= 48 && arg[0] <= 57) || arg[0] == 95)
+	if ((arg[0] >= 48 && arg[0] <= 57) || (arg[0] == 95 && !arg[1]))
 		return (0);
 	while (arg[i])
 	{
@@ -104,12 +102,12 @@ static int	is_valable(char	*arg)
 int	export_args(t_token *ts, t_env **myev ,int i)
 {
 	int	id_targ;
-
+	
 	while (ts->value[i])
 	{
-		if (!(is_valable(ts->value[i])))
+		if (!(env_valable(ts->value[i])))
 			printf("bash: export: << %s >> : identifant non valable\n",ts->value[i]);
-		else
+		else 
 		{
 			id_targ = is_in_ev(ts->value[i], (*myev));
 			if (id_targ >= 0)

@@ -6,36 +6,38 @@
 /*   By: aglampor <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 19:47:14 by aglampor          #+#    #+#             */
-/*   Updated: 2024/08/27 18:34:46 by aglampor         ###   ########.fr       */
+/*   Updated: 2024/09/16 01:22:55 by aglampor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../minishell.h"
 
 int	ft_verif_line(char *line)
 {
+	char	prev;
 	int	i;
-	int	sb;
-	int	db;
+	int	flag;
 
-	i = 0;
-	sb = 0;
-	db = 0;
+
 	if (is_empty_line(line) == 1)
 		return (0);
+	i = 0;
+	flag = 0;
+	prev = '\0';
 	while (line[i])
 	{
-		if (line[i] == 34)
-			db++;
-		if (line[i] == 39)
-			sb++;
+		if (!flag && (prev != '\\' && is_quote(line[i])))
+			flag = is_quote(line[i]);
+		else if (flag && ((is_quote(line[i])== flag && prev != '\\')))
+			flag = 0;
+		prev = line[i];
 		i++;
 	}
-	if (sb % 2 == 1 || db % 2 == 1)
+	if (flag)
 	{
 		write(1, "bash : not interpreted unclosed quotes\n", 39);
-		return (1);
+		return (0);
 	}
-	return (0);
+	return (1);
 }
 
 int	is_cmd(char *s, t_env *env)
@@ -47,7 +49,7 @@ int	is_cmd(char *s, t_env *env)
 
 	path = env;
 	i = 0;
-	while (ft_cmp("PATH", path->key) != 1)
+	while (ft_cmp("PATH", path->key) != 0)
 		path = path->next;
 	paths = ft_split(path->value, ':');
 	while (paths[i])
@@ -55,14 +57,14 @@ int	is_cmd(char *s, t_env *env)
 		test_path = ft_strjoin_t(paths[i], "/", s);
 		if (access(test_path, F_OK | X_OK) == 0)
 		{
-			free(paths);
 			free(test_path);
+			ft_free_split(paths);
 			return (1);
 		}
 		free(test_path);
 		i++;
 	}
-	free(paths);
+	ft_free_split(paths);
 	return (0);
 }
 

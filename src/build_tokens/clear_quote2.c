@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:00:59 by alexis            #+#    #+#             */
-/*   Updated: 2024/09/17 11:24:00 by alexis           ###   ########.fr       */
+/*   Updated: 2024/09/18 15:59:33 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,12 +92,11 @@ void	replace_$(t_token *tok, t_env **env, char **str)
 		if (i == 1)
 		{
 			new = replace_$2(tok->value[j], env);
-//			if (tok->value[j])
-//				free(tok->value[j]); //normalement deja fait
 			tok->value[j] = new;
 		}
 		else
 			j++;
+		//return ;
 	}
 }
 
@@ -167,43 +166,33 @@ char *replace_$2(char *str, t_env **env)
 			while ((is_env_char(str[j]) == 0) && (str[j]))
 				j++;
 			new = replace_$3(str, env, i, j);
-			free(str);
 			str = new;
 			i = 0;
+			printf(CYAN "\nMid Clean\n" RESET);
+			printf("%s\n", str);
+			//return(0);
 		}
 	}
 	return (new);
 }
-/*
-	while (j < i)
-	{
-		while(str[i] != '$' || str[i])
-			i++;
-		if (str[i] == '$')
-		{
-			i++;
-			if (str[i] >= '0' || str[i] <= '9')
-			{
-				if (str[i] == '0')
-					replace_token(); // TODO -> minishell(/0) //duppliquer toute la chaine et remplacer $0 ou $ par rien ou minishell
-				return (ft_malloc(0));
-			}
-			else
-				new = replace_$3(str, env);
-		}
-	}
-*/
 
 char *replace_$3(char *str, t_env **env, int i, int j)
 {
 	char *new;
 	int f;
 
-	f = is_in_ev(str + i + 1, *env);
+	f = is_in_ev_tok(str + i + 1, *env);
 	if (f >= 0)
+	{
 		new = replace_venv(str, i, j, found_in_env(env, f));
+		printf(CYAN "\n\n replace venv\n\n" RESET);
+	}
 	if (f == -1)
+	{
 		new = skip_venv(str, i, j);
+		printf(CYAN "\n\n skip venv\n\n" RESET);
+	}
+	free(str);
 	return (new);
 }
 
@@ -229,8 +218,11 @@ char	*skip_venv(char *str, int i, int j)
 
 	x = 0;
 	y = 0;
-	j = i - j;
-	new = ft_malloc(ft_strlen(str) - j);
+	printf("i : %i\n", i);
+	printf("j : %i\n", j);
+	printf("str : %i\n", ft_strlen(str));
+	printf("skip venv malloc size of : %i\n", ft_strlen(str) - (j - i));
+	new = ft_malloc(ft_strlen(str) - (j - i));
 	new[ft_strlen(str) - j] = '\0';
 	while (str[x] != '$')
 	{
@@ -254,11 +246,17 @@ char	*replace_venv(char *str, int i, int j, char *value)
 {
 	int x;
 	int y;
+	int diff;
 	char *new;
 
 	x = 0;
-	j = j - i;
-	new = ft_malloc((ft_strlen(str) - j) + (ft_strlen(value)));
+	diff = (j - i);
+	printf("i : %i\n", i);
+	printf("j : %i\n", j);
+	printf("str : %i\n", ft_strlen(str));
+	printf("value : %i\n", ft_strlen(value));
+	printf(YELLOW "replace venv malloc size of : %i\n" RESET, (ft_strlen(str) + ft_strlen(value) - (j - i)));
+	new = ft_malloc((ft_strlen(str) + ft_strlen(value) - (j - i)));
 	new[(ft_strlen(str) - j) + (ft_strlen(value))] = '\0';
 	i = 0;
 	y = 0;
@@ -268,14 +266,14 @@ char	*replace_venv(char *str, int i, int j, char *value)
 		i++;
 		y++;
 	}
-	i++;
 	while (value[x])
 	{
 		new[y] = value[x];
 		y++;
 		x++;
 	}
-	i = i + j - 1;
+	i = i + diff;
+	printf(RED "%i\n" RESET, i);
 	while (str[i])
 	{
 		new[y] = str[i];
@@ -300,4 +298,33 @@ int	is_env_char(char c)
 		return (0);
 	else
 		return (1);
+}
+
+int	is_in_ev_tok(char *arg, t_env *myev)
+{
+	char	*k;
+	int		flag;
+	int		targ;
+
+	targ = 0;
+	flag = 0;
+	while (is_env_char(arg[flag]) == 0)
+		flag++;
+	// if (flag == 0)
+	// 	return (-1);
+	k = word_dup(arg , 0, flag);
+	while (myev)
+	{
+		if (!ft_cmp(myev->key, k))
+		{
+			if (flag >= 0)
+				free(k);
+			return (targ);
+		}
+		targ++;
+		myev = myev->next;
+	}
+	if (k)
+		free(k);
+	return (-1);
 }

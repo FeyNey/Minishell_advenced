@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 17:16:34 by aglampor          #+#    #+#             */
-/*   Updated: 2024/09/18 10:22:51 by alexis           ###   ########.fr       */
+/*   Updated: 2024/09/18 12:35:21 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,8 @@ static int	bt_u(char *l, t_bag **bag)
 	ft_addb_tok(&((*bag)->tokens), new);
 	return (j);
 }
-
-static void	clean_tok(t_token **tok, t_env **env, t_bag **bag) //valeur de retour pour l'erreur
+static void	clean_tok(t_token **tok, t_env **env, t_bag **bag) //valeur de retour pour l'erreur)
 {
-	(void)env;
-	(void)bag;
 	t_token *tmp;
 
 	tmp = *tok;
@@ -43,6 +40,7 @@ static void	clean_tok(t_token **tok, t_env **env, t_bag **bag) //valeur de retou
 	while ((*tok))
 	{
 		replace_$(*tok, env, (*tok)->value);
+//		remove_quote(&(tok));
 		(*tok) = (*tok)->next;
 	}
 	*tok = tmp;
@@ -73,6 +71,8 @@ void	build_tokens(char *line, t_bag **bag)
 	int	i;
 
 	i = 0;
+	if (!ft_verif_line(line))
+		return ;
 	while (line[i] && i < ft_strlen(line))
 	{
 		while (is_white(line[i]))
