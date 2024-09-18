@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clear_quote2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:00:59 by alexis            #+#    #+#             */
-/*   Updated: 2024/09/16 14:22:38 by acoste           ###   ########.fr       */
+/*   Updated: 2024/09/17 11:24:00 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,55 +78,12 @@ int tok_len(t_token **tok)
 // 	}
 // }
 
-void	supp_quote(t_token **tok, char **str)
-{
-	char *new;
-	int i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i][0] == 34 || str[i][0] == 39)
-		{
-			new = supp_quote2(tok, str[i]);
-			(*tok)->value[i] = new;
-		}
-		i++;
-	}
-}
-
-char	*supp_quote2(t_token **tok, char *str)
-{
-	char *new;
-	int max;
-	int i;
-	int j;
-
-	(void)tok;
-	max = ft_strlen(str);
-	max = max - 2;
-	new = ft_malloc(ft_strlen(str) - 2);
-	new[ft_strlen(str) - 2] = '\0';
-	i = 1;
-	j = 0;
-	while (j < max)
-	{
-		new[j] = str[i];
-		j++;
-		i++;
-	}
-	new[j] = '\0';
-	free(str);
-	return (new);
-}
-
 void	replace_$(t_token *tok, t_env **env, char **str)
 {
 	int i;
 	int j;
 	char *new;
 
-	(void)str;
 	i = 0;
 	j = 0;
 	while (str[j])

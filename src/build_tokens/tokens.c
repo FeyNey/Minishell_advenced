@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 17:16:34 by aglampor          #+#    #+#             */
-/*   Updated: 2024/09/15 23:55:37 by acoste           ###   ########.fr       */
+/*   Updated: 2024/09/17 11:20:49 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ static void	clean_tok(t_token **tok, t_env **env, t_bag **bag) //valeur de retou
 
 	tmp = *tok;
 	remove_redir(&(*bag)->tokens);
-	while ((*tok))
-	{
-		replace_$(*tok, env, (*tok)->value);
-		(*tok) = (*tok)->next;
-	}
+//	while ((*tok))
+	// {
+	// 	replace_$(*tok, env, (*tok)->value);
+	// 	(*tok) = (*tok)->next;
+	// }
 	*tok = tmp;
 }
 
