@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 15:38:59 by aglampor          #+#    #+#             */
-/*   Updated: 2024/09/18 15:46:14 by alexis           ###   ########.fr       */
+/*   Updated: 2024/09/18 21:27:18 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,5 +179,4 @@ char	*found_in_env(t_env **env, int index);
 char	*skip_venv(char *str, int i, int j);
 int		not_between_quote(char *str, char c, int j);
 int		is_in_ev_tok(char *arg, t_env *myev);
-
 #endif

@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:00:59 by alexis            #+#    #+#             */
-/*   Updated: 2024/09/18 15:59:33 by alexis           ###   ########.fr       */
+/*   Updated: 2024/09/19 08:10:34 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	replace_$(t_token *tok, t_env **env, char **str)
 		}
 		else
 			j++;
-		//return ;
+		// return ;
 	}
 }
 
@@ -166,6 +166,7 @@ char *replace_$2(char *str, t_env **env)
 			while ((is_env_char(str[j]) == 0) && (str[j]))
 				j++;
 			new = replace_$3(str, env, i, j);
+			// free(str);
 			str = new;
 			i = 0;
 			printf(CYAN "\nMid Clean\n" RESET);
@@ -187,7 +188,7 @@ char *replace_$3(char *str, t_env **env, int i, int j)
 		new = replace_venv(str, i, j, found_in_env(env, f));
 		printf(CYAN "\n\n replace venv\n\n" RESET);
 	}
-	if (f == -1)
+	else if (f == -1)
 	{
 		new = skip_venv(str, i, j);
 		printf(CYAN "\n\n skip venv\n\n" RESET);
@@ -198,16 +199,20 @@ char *replace_$3(char *str, t_env **env, int i, int j)
 
 char *found_in_env(t_env **env, int index)
 {
-//	t_env *tmp;
+	t_env *tmp;
+	char *value;
 	int i;
 
 	i = 0;
+	tmp = (*env);
 	while (i < index)
 	{
 		(*env) = (*env)->next;
 		i++;
 	}
-	return ((*env)->value);
+	value = (*env)->value;
+	(*env) = tmp;
+	return (value);
 }
 
 char	*skip_venv(char *str, int i, int j)
@@ -218,12 +223,9 @@ char	*skip_venv(char *str, int i, int j)
 
 	x = 0;
 	y = 0;
-	printf("i : %i\n", i);
-	printf("j : %i\n", j);
-	printf("str : %i\n", ft_strlen(str));
 	printf("skip venv malloc size of : %i\n", ft_strlen(str) - (j - i));
 	new = ft_malloc(ft_strlen(str) - (j - i));
-	new[ft_strlen(str) - j] = '\0';
+//	new[ft_strlen(str) - j] = '\0';
 	while (str[x] != '$')
 	{
 		new[y] = str[x];
@@ -251,11 +253,6 @@ char	*replace_venv(char *str, int i, int j, char *value)
 
 	x = 0;
 	diff = (j - i);
-	printf("i : %i\n", i);
-	printf("j : %i\n", j);
-	printf("str : %i\n", ft_strlen(str));
-	printf("value : %i\n", ft_strlen(value));
-	printf(YELLOW "replace venv malloc size of : %i\n" RESET, (ft_strlen(str) + ft_strlen(value) - (j - i)));
 	new = ft_malloc((ft_strlen(str) + ft_strlen(value) - (j - i)));
 	new[(ft_strlen(str) - j) + (ft_strlen(value))] = '\0';
 	i = 0;
@@ -273,7 +270,6 @@ char	*replace_venv(char *str, int i, int j, char *value)
 		x++;
 	}
 	i = i + diff;
-	printf(RED "%i\n" RESET, i);
 	while (str[i])
 	{
 		new[y] = str[i];
@@ -305,7 +301,9 @@ int	is_in_ev_tok(char *arg, t_env *myev)
 	char	*k;
 	int		flag;
 	int		targ;
+	t_env	*tmp;
 
+	tmp = myev;
 	targ = 0;
 	flag = 0;
 	while (is_env_char(arg[flag]) == 0)
@@ -319,6 +317,7 @@ int	is_in_ev_tok(char *arg, t_env *myev)
 		{
 			if (flag >= 0)
 				free(k);
+			myev = tmp;
 			return (targ);
 		}
 		targ++;
@@ -326,5 +325,6 @@ int	is_in_ev_tok(char *arg, t_env *myev)
 	}
 	if (k)
 		free(k);
+	myev = tmp;
 	return (-1);
 }

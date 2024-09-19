@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 17:16:34 by aglampor          #+#    #+#             */
-/*   Updated: 2024/09/18 12:35:21 by alexis           ###   ########.fr       */
+/*   Updated: 2024/09/19 00:29:44 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,18 @@ static int	bt_u(char *l, t_bag **bag)
 	ft_addb_tok(&((*bag)->tokens), new);
 	return (j);
 }
+
 static void	clean_tok(t_token **tok, t_env **env, t_bag **bag) //valeur de retour pour l'erreur)
 {
 	t_token *tmp;
 
+	(void)env;
 	tmp = *tok;
 	remove_redir(&(*bag)->tokens);
 	while ((*tok))
 	{
 		replace_$(*tok, env, (*tok)->value);
-//		remove_quote(&(tok));
+		remove_quote(tok);
 		(*tok) = (*tok)->next;
 	}
 	*tok = tmp;

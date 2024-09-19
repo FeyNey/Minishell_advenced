@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   verif.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aglampor <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 19:47:14 by aglampor          #+#    #+#             */
-/*   Updated: 2024/09/16 01:22:55 by aglampor         ###   ########.fr       */
+/*   Updated: 2024/09/18 19:43:28 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "../minishell.h"
 
 int	ft_verif_line(char *line)
@@ -16,7 +17,6 @@ int	ft_verif_line(char *line)
 	char	prev;
 	int	i;
 	int	flag;
-
 
 	if (is_empty_line(line) == 1)
 		return (0);
@@ -49,6 +49,7 @@ int	is_cmd(char *s, t_env *env)
 
 	path = env;
 	i = 0;
+
 	while (ft_cmp("PATH", path->key) != 0)
 		path = path->next;
 	paths = ft_split(path->value, ':');
