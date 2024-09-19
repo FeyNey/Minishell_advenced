@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:00:59 by alexis            #+#    #+#             */
-/*   Updated: 2024/09/19 08:10:34 by alexis           ###   ########.fr       */
+/*   Updated: 2024/09/19 10:22:55 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ void	replace_$(t_token *tok, t_env **env, char **str)
 		}
 		else
 			j++;
-		// return ;
 	}
 }
 
@@ -126,6 +125,31 @@ int	is_between_quote_and_has_$(char *word)
 		return (1);
 	else
 		return (0);
+}
+
+int	is_valable_$(char *word)
+{
+	int i;
+	char prev;
+
+	i = 0;
+	prev = word[i];
+	while (word[i])
+	{
+		if (word[i] == 39 && not_between_quote(word, word[i], i) == 1)
+		{
+			i++;
+			while (word[i] != 39 && word[i] != '\0')
+				i++;
+		}
+		if (word[i] == '$' && prev != 92)
+		{
+			return (i);
+		}
+		prev = word[i];
+		i++;
+	}
+	return (-1);
 }
 
 int not_between_quote(char *str, char c, int j)
@@ -158,23 +182,22 @@ char *replace_$2(char *str, t_env **env)
 	j = 0;
 	while (str[i])
 	{
-		while (str[i] != '$' && str[i])
-			i++;
+		i = is_valable_$(str);
+		if (i == -1)
+			break;
 		if (str[i] == '$')
 		{
 			j = i + 1;
 			while ((is_env_char(str[j]) == 0) && (str[j]))
 				j++;
 			new = replace_$3(str, env, i, j);
-			// free(str);
 			str = new;
 			i = 0;
-			printf(CYAN "\nMid Clean\n" RESET);
-			printf("%s\n", str);
-			//return(0);
+			// printf(CYAN "\nMid Clean\n" RESET);
+			// printf("%s\n", str);
 		}
 	}
-	return (new);
+	return (str);
 }
 
 char *replace_$3(char *str, t_env **env, int i, int j)
@@ -193,6 +216,10 @@ char *replace_$3(char *str, t_env **env, int i, int j)
 		new = skip_venv(str, i, j);
 		printf(CYAN "\n\n skip venv\n\n" RESET);
 	}
+	// else if (??)
+	// {
+		// new = word_dup(str, 0, ft_strlen(str));
+	// }
 	free(str);
 	return (new);
 }
@@ -223,15 +250,15 @@ char	*skip_venv(char *str, int i, int j)
 
 	x = 0;
 	y = 0;
-	printf("skip venv malloc size of : %i\n", ft_strlen(str) - (j - i));
+	// printf("skip venv i : %i\n", i);
 	new = ft_malloc(ft_strlen(str) - (j - i));
-//	new[ft_strlen(str) - j] = '\0';
-	while (str[x] != '$')
+	while (x < is_valable_$(str))
 	{
 		new[y] = str[x];
 		y++;
 		x++;
 	}
+	// printf("skip venv x : %i\n", x);
 	x++;
 	while (is_env_char(str[x]) == 0)
 		x++;
@@ -252,17 +279,19 @@ char	*replace_venv(char *str, int i, int j, char *value)
 	char *new;
 
 	x = 0;
+	// printf("replace venv i : %i\n", i);
 	diff = (j - i);
 	new = ft_malloc((ft_strlen(str) + ft_strlen(value) - (j - i)));
 	new[(ft_strlen(str) - j) + (ft_strlen(value))] = '\0';
 	i = 0;
 	y = 0;
-	while (str[i] != '$')
+	while (i < is_valable_$(str))
 	{
 		new[y] = str[i];
 		i++;
 		y++;
 	}
+	// printf("replace venv y : %i\n", y);
 	while (value[x])
 	{
 		new[y] = value[x];
