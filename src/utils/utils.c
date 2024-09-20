@@ -3,19 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 14:59:27 by aglampor          #+#    #+#             */
-/*   Updated: 2024/09/03 17:54:08 by aglampor         ###   ########.fr       */
+/*   Updated: 2024/09/20 09:57:06 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "../minishell.h"
 
 int	find_c(char *str, char c)
 {
-	int	i;
+	int		i;
 	char	prev;
-	
+
 	i = 0;
 	prev = '\0';
 	while (str[i])

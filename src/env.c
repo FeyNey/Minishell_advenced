@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 15:38:59 by aglampor          #+#    #+#             */
-/*   Updated: 2024/09/18 15:50:29 by alexis           ###   ########.fr       */
+/*   Updated: 2024/09/20 09:35:59 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 void	free_env(t_env	*p)
 {
 	t_env	*next;
-	
+
 	while (p)
-	{	
+	{
 		next = p->next;
 		free(p->key);
 		if (p->value)
@@ -26,7 +26,7 @@ void	free_env(t_env	*p)
 		p = next;
 	}
 }
-	
+
 char	**constructor(char *s)
 {
 	char	**build;
@@ -39,7 +39,6 @@ char	**constructor(char *s)
 	build[2] = 0;
 	return (build);
 }
-
 
 void	init_env(t_env **env, char **ev)
 {

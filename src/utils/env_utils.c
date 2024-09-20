@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   build_ft.c                                         :+:      :+:    :+:   */
+/*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 14:59:27 by aglampor          #+#    #+#             */
-/*   Updated: 2024/08/25 20:30:28 by aglampor         ###   ########.fr       */
+/*   Updated: 2024/09/20 09:47:13 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	ft_lstadd_back(t_env **lst, t_env *new)
 {
 	t_env	*e;
-	
+
 	if (!new)
 		return ;
 	if (!*lst)
@@ -54,7 +54,6 @@ t_env	*ft_lstlast(t_env *lst)
 	return (temp);
 }
 
-
 void	ft_indexion(t_env *list)
 {
 	int	i;
@@ -72,7 +71,7 @@ void	ft_delnode_idx(t_env **lst, int idx)
 {
 	t_env	*temp;
 	t_env	*flag;
-	int	i;
+	int		i;
 
 	i = 0;
 	if (lst == NULL || *lst == NULL)

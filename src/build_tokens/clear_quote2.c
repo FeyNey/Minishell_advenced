@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:00:59 by alexis            #+#    #+#             */
-/*   Updated: 2024/09/19 10:22:55 by alexis           ###   ########.fr       */
+/*   Updated: 2024/09/20 06:05:56 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	ft_strncmp(char *s1, char *s2, int n)
 char	*ft_malloc(int len)
 {
 	char	*new;
-	int i;
+	int		i;
 
 	i = 0;
 	new = malloc(sizeof(char) * (len + 1));
@@ -49,49 +49,20 @@ char	*ft_malloc(int len)
 
 //utils
 
-int tok_len(t_token **tok)
+void	replace_venv1(t_token *tok, t_env **env, char **str)
 {
-	int i;
-
-	i = 0;
-	while ((*tok)->next)
-		i++;
-	i++;
-	return (i);
-}
-
-//replace $ | than | supp quote
-
-// void	clear_token(t_token **tok, t_env **env) // valeur de retour pour l erreur ?
-// {
-// 	int i;
-// 	int j;
-
-// 	i = 0;
-// 	j = tok_len(tok);
-// 	while (i < j)
-// 	{
-// 		replace_$(*tok, env, (*tok)->value); //verif
-// 		supp_quote(tok, (*tok)->value); //verif
-// 		(*tok) = (*tok)->next;
-// 		i++;
-// 	}
-// }
-
-void	replace_$(t_token *tok, t_env **env, char **str)
-{
-	int i;
-	int j;
-	char *new;
+	int		i;
+	int		j;
+	char	*new;
 
 	i = 0;
 	j = 0;
 	while (str[j])
 	{
-		i =	is_between_quote_and_has_$(str[j]);
+		i = is_between_quote_and_has_venv(str[j]);
 		if (i == 1)
 		{
-			new = replace_$2(tok->value[j], env);
+			new = replace_venv2(tok->value[j], env);
 			tok->value[j] = new;
 		}
 		else
@@ -99,11 +70,11 @@ void	replace_$(t_token *tok, t_env **env, char **str)
 	}
 }
 
-int	is_between_quote_and_has_$(char *word)
+int	is_between_quote_and_has_venv(char *word)
 {
-	int i;
-	int f;
-	char prev;
+	int		i;
+	int		f;
+	char	prev;
 
 	i = 0;
 	f = 0;
@@ -127,10 +98,10 @@ int	is_between_quote_and_has_$(char *word)
 		return (0);
 }
 
-int	is_valable_$(char *word)
+int	is_valable_venv(char *word)
 {
-	int i;
-	char prev;
+	int		i;
+	char	prev;
 
 	i = 0;
 	prev = word[i];
@@ -152,9 +123,9 @@ int	is_valable_$(char *word)
 	return (-1);
 }
 
-int not_between_quote(char *str, char c, int j)
+int	not_between_quote(char *str, char c, int j)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])
@@ -172,17 +143,17 @@ int not_between_quote(char *str, char c, int j)
 	return (0);
 }
 
-char *replace_$2(char *str, t_env **env)
+char	*replace_venv2(char *str, t_env **env)
 {
-	char *new;
-	int i;
-	int j;
+	char	*new;
+	int		i;
+	int		j;
 
 	i = 0;
 	j = 0;
 	while (str[i])
 	{
-		i = is_valable_$(str);
+		i = is_valable_venv(str);
 		if (i == -1)
 			break;
 		if (str[i] == '$')
@@ -190,7 +161,7 @@ char *replace_$2(char *str, t_env **env)
 			j = i + 1;
 			while ((is_env_char(str[j]) == 0) && (str[j]))
 				j++;
-			new = replace_$3(str, env, i, j);
+			new = replace_venv3(str, env, i, j);
 			str = new;
 			i = 0;
 			// printf(CYAN "\nMid Clean\n" RESET);
@@ -200,15 +171,15 @@ char *replace_$2(char *str, t_env **env)
 	return (str);
 }
 
-char *replace_$3(char *str, t_env **env, int i, int j)
+char	*replace_venv3(char *str, t_env **env, int i, int j)
 {
-	char *new;
-	int f;
+	char	*new;
+	int		f;
 
 	f = is_in_ev_tok(str + i + 1, *env);
 	if (f >= 0)
 	{
-		new = replace_venv(str, i, j, found_in_env(env, f));
+		new = replace_venv4(str, i, j, found_in_env(env, f));
 		printf(CYAN "\n\n replace venv\n\n" RESET);
 	}
 	else if (f == -1)
@@ -224,11 +195,11 @@ char *replace_$3(char *str, t_env **env, int i, int j)
 	return (new);
 }
 
-char *found_in_env(t_env **env, int index)
+char	*found_in_env(t_env **env, int index)
 {
-	t_env *tmp;
-	char *value;
-	int i;
+	t_env	*tmp;
+	char	*value;
+	int		i;
 
 	i = 0;
 	tmp = (*env);
@@ -244,15 +215,15 @@ char *found_in_env(t_env **env, int index)
 
 char	*skip_venv(char *str, int i, int j)
 {
-	int x;
-	int y;
-	char *new;
+	int		x;
+	int		y;
+	char	*new;
 
 	x = 0;
 	y = 0;
 	// printf("skip venv i : %i\n", i);
 	new = ft_malloc(ft_strlen(str) - (j - i));
-	while (x < is_valable_$(str))
+	while (x < is_valable_venv(str))
 	{
 		new[y] = str[x];
 		y++;
@@ -271,12 +242,13 @@ char	*skip_venv(char *str, int i, int j)
 	new[y] = '\0';
 	return (new);
 }
-char	*replace_venv(char *str, int i, int j, char *value)
+
+char	*replace_venv4(char *str, int i, int j, char *value)
 {
-	int x;
-	int y;
-	int diff;
-	char *new;
+	int		x;
+	int		y;
+	int		diff;
+	char	*new;
 
 	x = 0;
 	// printf("replace venv i : %i\n", i);
@@ -285,7 +257,7 @@ char	*replace_venv(char *str, int i, int j, char *value)
 	new[(ft_strlen(str) - j) + (ft_strlen(value))] = '\0';
 	i = 0;
 	y = 0;
-	while (i < is_valable_$(str))
+	while (i < is_valable_venv(str))
 	{
 		new[y] = str[i];
 		i++;
@@ -308,13 +280,6 @@ char	*replace_venv(char *str, int i, int j, char *value)
 	new[y] = '\0';
 	return (new);
 }
-
-/*reprendre ici,
-
-il reste a comparer tout l'environnement, 	remplacer si je tomber sur un element valide,
-											remplacer si je ne tombe sur rien;
-
-*/
 
 int	is_env_char(char c)
 {
@@ -339,7 +304,7 @@ int	is_in_ev_tok(char *arg, t_env *myev)
 		flag++;
 	// if (flag == 0)
 	// 	return (-1);
-	k = word_dup(arg , 0, flag);
+	k = word_dup(arg, 0, flag);
 	while (myev)
 	{
 		if (!ft_cmp(myev->key, k))

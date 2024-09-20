@@ -6,7 +6,7 @@
 #    By: alexis <alexis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/27 15:05:19 by aglampor          #+#    #+#              #
-#    Updated: 2024/09/18 12:23:52 by alexis           ###   ########.fr        #
+#    Updated: 2024/09/20 09:46:34 by alexis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,10 +29,10 @@ SRC_FILES =		env.c\
 			builtin/f_export_args.c\
 			builtin/f_buildin.c\
 			build_tokens/tok_utils.c\
-			build_tokens/clean_quote.c\
 			build_tokens/clean_redir.c\
 			build_tokens/redir_realoc.c\
 			build_tokens/tokens.c\
+			build_tokens/clean_quote.c\
 			utils/split_CMD.c\
 			utils/env_utils.c\
 			utils/utils.c\

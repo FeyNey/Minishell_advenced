@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cleaning.c                                         :+:      :+:    :+:   */
+/*   clean_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aglampor <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 14:22:37 by aglampor          #+#    #+#             */
-/*   Updated: 2024/09/03 17:56:46 by aglampor         ###   ########.fr       */
+/*   Updated: 2024/09/19 11:17:05 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	redir_type(char	*str)
 {
-	if (!(find_c(str ,'>')))
+	if (!(find_c(str, '>')))
 	{
 		if (str[1] && !((find_c(&str[1], '>'))))
 			return (RROUT);
@@ -22,7 +22,7 @@ int	redir_type(char	*str)
 	}
 	if ((find_c(str, '<') == 0))
 	{
-		if (str[1] && !(find_c(&str[1] ,'<')))
+		if (str[1] && !(find_c(&str[1], '<')))
 			return (RRIN);
 		return (RRIN);
 	}
@@ -40,7 +40,6 @@ int	open_file(char *fic_name, int redir)
 	return (fd);
 }
 
-
 char	*owr(char *cmd)
 {
 	if (cmd[0] == '>')
@@ -51,12 +50,12 @@ char	*owr(char *cmd)
 			return (ft_strdup(&(cmd[2])));
 	}
 	if (cmd[0] == '<')
-        {
-                if (cmd[1] && cmd[1] != '<')
-                        return (ft_strdup(&(cmd[1])));
+	{
+		if (cmd[1] && cmd[1] != '<')
+			return (ft_strdup(&(cmd[1])));
 		else if (cmd[1] == '<' && cmd[2])
 			return (ft_strdup(&(cmd[2])));
-        }
+	}
 	return (NULL);
 }
 
@@ -75,32 +74,31 @@ void	refresh_tok(t_token **t, char *fic, int type_redir)
 	{
 		if ((*t)->fdin)
 			close(fd);
-                (*t)->fdout = fd;
+		(*t)->fdout = fd;
 	}
 }
-
 
 //repalce selon la redir
 void	remove_redir(t_token **ts)
 {
-	int	i;
+	int			i;
 	t_token		*p_first;
 
 	p_first = (*ts);
 	while ((*ts))
 	{
 		i = 0;
-		while((*ts)->value[i])
+		while ((*ts)->value[i])
 		{
 			if (redir_type((*ts)->value[i]))
 			{
-				printf("%s is redir\n",(*ts)->value[i]);
+				printf("%s is redir\n", (*ts)->value[i]);
 				(*ts)->value = redir_realloc(&(*ts));
-				break;
+				break ;
 			}
 			i++;
 		}
-		(*ts) = (*ts)->next; 
+		(*ts) = (*ts)->next;
 	}
 	(*ts) = p_first;
 }

@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 15:38:59 by aglampor          #+#    #+#             */
-/*   Updated: 2024/09/19 10:24:54 by alexis           ###   ########.fr       */
+/*   Updated: 2024/09/20 09:38:24 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ static int	minishell(t_bag **bag)
 		{
 			write(1, "exit\n", 5);
 			clear_history();
-			return(free(line), 0);
+			return (free(line), 0);
 		}
 		if (!is_empty_line(line))
 			add_history(line);
-		(*bag)->tokens = NULL;	//fonction reset_token(bag->tokens) qui free (et pointe vers null)
+		(*bag)->tokens = NULL;
 		build_tokens(line, bag);
 		free(line);
 		if ((*bag)->tokens)
@@ -53,7 +53,7 @@ int	main(int ac, char **av, char **ev)
 
 	(void)av;
 	(void)ac;
-	if (!(bag = malloc(sizeof(t_bag))))
+	if (!(bag = malloc(sizeof(t_bag)))) //pas possible
 		return (1);
 	bag->env = NULL;
 	init_env(&(bag->env), ev);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_CMD.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 19:20:48 by acoste            #+#    #+#             */
-/*   Updated: 2024/08/28 14:43:40 by aglampor         ###   ########.fr       */
+/*   Updated: 2024/09/20 09:54:43 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	count_wrd_input(char *str)
 		while (is_white((str[i])))
 			i++;
 		if (str[i])
-		{	
+		{
 			words++;
 			i += end_cmd(&str[i]);
 		}
@@ -32,13 +32,12 @@ static int	count_wrd_input(char *str)
 	return (words);
 }
 
-
 static void	cmd_split(char **arr, char *str)
 {
 	int	i_arr;
 	int	i_char;
-	int	end_CMD;
-	
+	int	end_comd;
+
 	i_arr = 0;
 	i_char = 0;
 	while (arr)
@@ -46,30 +45,28 @@ static void	cmd_split(char **arr, char *str)
 		while (is_white(str[i_char]))
 			i_char++;
 		if (str[i_char] == '\0')
-			break;
-		end_CMD = end_cmd(&str[i_char]);
-		arr[i_arr] = word_dup(&str[i_char], 0, end_CMD);
+			break ;
+		end_comd = end_cmd(&str[i_char]);
+		arr[i_arr] = word_dup(&str[i_char], 0, end_comd);
 		i_arr++;
-		i_char += end_CMD;
+		i_char += end_comd;
 	}
 }
 
-
 char	**split_input(char *str)
 {
-        char            **arr;
-        int                     words;
+	char	**arr;
+	int		words;
 
-        words = count_wrd_input(str);
-        arr = malloc(sizeof(char *) * (words + 1));
-        if (!arr)
-                return (0);
-        arr[words] = 0;
-        cmd_split(arr ,str);
+	words = count_wrd_input(str);
+	arr = malloc(sizeof(char *) * (words + 1));
+	if (!arr)
+		return (0);
+	arr[words] = 0;
+	cmd_split(arr, str);
 	free(str);
-        return (arr);
+	return (arr);
 }
-
 
 // problem si on envoie '\0' en input le split il casse
 // je sais pas si je le regle (surtout comemnt le regler)
@@ -80,8 +77,6 @@ cmd argument | cmd arg arg arg | cmd > file > 2 > 3 > file2 |
 cdm argument
 cmd arg arg arg
 cmd > file > 2 > 3 file2
-
-
 
 cmd = 0;
 

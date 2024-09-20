@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 20:28:06 by aglampor          #+#    #+#             */
-/*   Updated: 2024/09/18 20:01:51 by alexis           ###   ########.fr       */
+/*   Updated: 2024/09/20 09:30:14 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static void	add_myenv(char	*arg, t_env **myenv)
 {
 	char	**constr;
 	t_env	*new;
-
 
 	if (find_c(arg, '=') > -1)
 	{
@@ -35,8 +34,8 @@ int	is_in_ev(char *arg, t_env *myev)
 	int		targ;
 
 	targ = 0;
-	if ((flag = find_c(arg, '=')) != -1)
-		k = word_dup(arg , 0, flag);
+	if ((flag = find_c(arg, '=')) != -1) //WTF
+		k = word_dup(arg, 0, flag);
 	else
 		k = arg;
 	while (myev)
@@ -73,7 +72,8 @@ static void	srch_replace(t_env **menv, int id, char *arg)
 	ft_free_split(constr);
 }
 
-/* 'valable' selon export soit verif ur 1er caracter diff de chiff ou _ puis etre que des chiffre ou des _*/
+/* 'valable' selon export soit verif ur 1er caracter
+ diff de chiff ou _ puis etre que des chiffre ou des _*/
 static int	env_valable(char *arg)
 {
 	int	i;
@@ -87,7 +87,7 @@ static int	env_valable(char *arg)
 	{
 		if (arg[i] >= 65 && arg[i] <= 90)
 			i++;
-		else if (arg[i] >= 97 && arg[i] <=122)
+		else if (arg[i] >= 97 && arg[i] <= 122)
 			i++;
 		else if (arg[i] >= 48 && arg[i] <= 57)
 			i++;
@@ -99,15 +99,15 @@ static int	env_valable(char *arg)
 	return (1);
 }
 
-int	export_args(t_token *ts, t_env **myev ,int i)
+int	export_args(t_token	*ts, t_env **myev, int i)
 {
 	int	id_targ;
-	
+
 	while (ts->value[i])
 	{
 		if (!(env_valable(ts->value[i])))
-			printf("bash: export: << %s >> : identifant non valable\n",ts->value[i]);
-		else 
+			printf("bash: export: << %s >> : identifant non valable\n", ts->value[i]);
+		else
 		{
 			id_targ = is_in_ev(ts->value[i], (*myev));
 			if (id_targ >= 0)

@@ -3,26 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   tok_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aglampor <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 15:48:54 by aglampor          #+#    #+#             */
-/*   Updated: 2024/09/16 01:03:45 by aglampor         ###   ########.fr       */
+/*   Updated: 2024/09/19 11:30:46 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "../minishell.h"
 
-void    free_tokens(t_token  *p)
+void	free_tokens(t_token *p)
 {
-        t_token   *tmp;
+	t_token	*tmp;
 
-        while (p)
-        {
-                tmp = p->next;
+	while (p)
+	{
+		tmp = p->next;
 		if (p->value)
 			ft_free_split(p->value);
-                free(p);
-                p = tmp;
-        }
+		free(p);
+		p = tmp;
+	}
 }
 
 int	type_redir(char *str)
@@ -61,22 +62,21 @@ int	end_cmd(char *s)
 	int	i;
 	int	flag;
 	int	q;
-	
+
 	flag = 0;
 	i = 0;
 	while (s[i])
 	{
-		if (!flag && (q = is_quote(s[i])))
+		if (!flag && (q = is_quote(s[i]))) // ?? pas bon
 			flag = q;
 		else if (!flag && is_white(s[i]))
 			return (i);
 		else if (s[i] == flag)
-			flag = 0;;
+			flag = 0;
 		i++;
 	}
 	return (i);
 }
-
 
 void	ft_addb_tok(t_token **p, t_token *new)
 {
@@ -106,4 +106,3 @@ int	type_tok(char *s, t_env *env)
 		return (CMD);
 	return (0);
 }
-

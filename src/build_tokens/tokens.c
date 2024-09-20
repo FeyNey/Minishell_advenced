@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 17:16:34 by aglampor          #+#    #+#             */
-/*   Updated: 2024/09/19 00:29:44 by alexis           ###   ########.fr       */
+/*   Updated: 2024/09/20 05:58:48 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,18 @@ static int	bt_u(char *l, t_bag **bag)
 	return (j);
 }
 
-static void	clean_tok(t_token **tok, t_env **env, t_bag **bag) //valeur de retour pour l'erreur)
+//valeur de retour pour l'erreur int ?
+
+static void	clean_tok(t_token **tok, t_env **env, t_bag **bag)
 {
-	t_token *tmp;
+	t_token	*tmp;
 
 	(void)env;
 	tmp = *tok;
 	remove_redir(&(*bag)->tokens);
 	while ((*tok))
 	{
-		replace_$(*tok, env, (*tok)->value);
+		replace_venv1(*tok, env, (*tok)->value);
 		remove_quote(tok);
 		(*tok) = (*tok)->next;
 	}
@@ -50,8 +52,8 @@ static void	clean_tok(t_token **tok, t_env **env, t_bag **bag) //valeur de retou
 
 void	printtok(t_token **t)
 {
+	int		i;
 	t_token	*tmp;
-	int	i;
 
 	tmp = *t;
 	while (tmp)
@@ -63,10 +65,10 @@ void	printtok(t_token **t)
 			printf("value[%i] %s\n", i, tmp->value[i]);
 			i++;
 		}
-//		printf("type %d\n",tmp->type);
 		tmp = tmp->next;
 	}
 }
+//		printf("type %d\n",tmp->type);
 
 void	build_tokens(char *line, t_bag **bag)
 {
