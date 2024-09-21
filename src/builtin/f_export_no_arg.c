@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   f_export_no_arg.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 20:28:06 by aglampor          #+#    #+#             */
-/*   Updated: 2024/09/20 09:35:16 by alexis           ###   ########.fr       */
+/*   Updated: 2024/09/21 17:20:39 by acoste           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static int	is_in(int idx, int *tri)
 {

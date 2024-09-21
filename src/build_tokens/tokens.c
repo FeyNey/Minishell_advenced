@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 17:16:34 by aglampor          #+#    #+#             */
-/*   Updated: 2024/09/20 05:58:48 by alexis           ###   ########.fr       */
+/*   Updated: 2024/09/21 17:22:11 by acoste           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ static void	clean_tok(t_token **tok, t_env **env, t_bag **bag)
 {
 	t_token	*tmp;
 
-	(void)env;
 	tmp = *tok;
 	remove_redir(&(*bag)->tokens);
 	while ((*tok))

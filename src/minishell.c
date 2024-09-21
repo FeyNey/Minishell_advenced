@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 15:38:59 by aglampor          #+#    #+#             */
-/*   Updated: 2024/09/20 09:38:24 by alexis           ###   ########.fr       */
+/*   Updated: 2024/09/21 17:45:51 by acoste           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ int	main(int ac, char **av, char **ev)
 		return (1);
 	bag->env = NULL;
 	init_env(&(bag->env), ev);
-	rl_catch_signals = 0;
-	redirect_signals();
+	// rl_catch_signals = 0;
+	// redirect_signals();
 	minishell(&bag);
 	free_env((bag->env));
 	free(bag);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clear_quote2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:00:59 by alexis            #+#    #+#             */
-/*   Updated: 2024/09/20 06:05:56 by alexis           ###   ########.fr       */
+/*   Updated: 2024/09/21 18:04:04 by acoste           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,7 +221,8 @@ char	*skip_venv(char *str, int i, int j)
 
 	x = 0;
 	y = 0;
-	// printf("skip venv i : %i\n", i);
+	if (str[i + 1] >= '0' && str[i + 1] <= '9')
+		return (number_venv(str, i));
 	new = ft_malloc(ft_strlen(str) - (j - i));
 	while (x < is_valable_venv(str))
 	{
@@ -240,6 +241,35 @@ char	*skip_venv(char *str, int i, int j)
 		x++;
 	}
 	new[y] = '\0';
+	return (new);
+}
+
+char *number_venv(char *str, int i)
+{
+	char *new;
+	int y;
+
+	if (str[i + 1] == '0')
+		return(replace_venv4(str, i, i + 2, "minishell"));
+	else
+	{
+		y = 0;
+		new = ft_malloc(ft_strlen(str) - 2);
+		i = 0;
+		while (i < is_valable_venv(str))
+		{
+			new[y] = str[i];
+			i++;
+			y++;
+		}
+		i = i + 2;
+		while (str[i])
+		{
+			new[y] = str[i];
+			i++;
+			y++;
+		}
+	}
 	return (new);
 }
 
@@ -283,8 +313,7 @@ char	*replace_venv4(char *str, int i, int j, char *value)
 
 int	is_env_char(char c)
 {
-	if ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'z')
-		|| (c >= 'A' && c <= 'Z') || (c == '_'))
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c == '_'))
 		return (0);
 	else
 		return (1);
