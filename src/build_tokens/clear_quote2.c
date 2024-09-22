@@ -6,7 +6,7 @@
 /*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:00:59 by alexis            #+#    #+#             */
-/*   Updated: 2024/09/22 16:35:46 by acoste           ###   ########.fr       */
+/*   Updated: 2024/09/22 16:43:10 by acoste           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,8 +164,8 @@ char	*replace_venv2(char *str, t_env **env)
 			new = replace_venv3(str, env, i, j);
 			str = new;
 			i = 0;
-			printf(CYAN "\nMid Clean\n" RESET);
-			printf("%s\n", str);
+			// printf(CYAN "\nMid Clean\n" RESET);
+			// printf("%s\n", str);
 		}
 	}
 	return (str);
@@ -184,13 +184,9 @@ char	*replace_venv3(char *str, t_env **env, int i, int j)
 	}
 	else if (f == -1)
 	{
-		new = skip_venv(str, i, j);
+		new = skip_venv(str, i, j, 0);
 		printf(CYAN "\n\n skip venv\n\n" RESET);
 	}
-	// else if (??)
-	// {
-		// new = word_dup(str, 0, ft_strlen(str));
-	// }
 	free(str);
 	return (new);
 }
@@ -213,14 +209,12 @@ char	*found_in_env(t_env **env, int index)
 	return (value);
 }
 
-char	*skip_venv(char *str, int i, int j)
+char	*skip_venv(char *str, int i, int j, int x)
 {
-	int		x;
 	int		y;
 	char	*new;
 	char	*stock;
 
-	x = 0;
 	y = 0;
 	if (str[i + 1] >= '0' && str[i + 1] <= '9')
 		return (number_venv(str, i));
@@ -235,9 +229,9 @@ char	*skip_venv(char *str, int i, int j)
 	new = ft_malloc(ft_strlen(str) - (j - i));
 	while (x < is_valable_venv(str))
 		new[y++] = str[x++];
-	if (is_env_char(str[x + 1] == 1))
-		new[y++] = str[x++];
-	while (is_env_char(str[x]) == 0 && str[x])
+	// if (is_env_char(str[x + 1] == 1))
+	// 	new[y++] = str[x++];
+	while (is_env_char(str[x]) == 0)
 		x++;
 	while (str[x])
 		new[y++] = str[x++];
@@ -258,18 +252,10 @@ char *number_venv(char *str, int i)
 		new = ft_malloc(ft_strlen(str) - 2);
 		i = 0;
 		while (i < is_valable_venv(str))
-		{
-			new[y] = str[i];
-			i++;
-			y++;
-		}
+			new[y++] = str[i++];
 		i = i + 2;
 		while (str[i])
-		{
-			new[y] = str[i];
-			i++;
-			y++;
-		}
+			new[y++] = str[i++];
 	}
 	return (new);
 }
@@ -282,32 +268,18 @@ char	*replace_venv4(char *str, int i, int j, char *value)
 	char	*new;
 
 	x = 0;
-	// printf("replace venv i : %i\n", i);
 	diff = (j - i);
 	new = ft_malloc((ft_strlen(str) + ft_strlen(value) - (j - i)));
 	new[(ft_strlen(str) - j) + (ft_strlen(value))] = '\0';
 	i = 0;
 	y = 0;
 	while (i < is_valable_venv(str))
-	{
-		new[y] = str[i];
-		i++;
-		y++;
-	}
-	// printf("replace venv y : %i\n", y);
+		new[y++] = str[i++];
 	while (value[x])
-	{
-		new[y] = value[x];
-		y++;
-		x++;
-	}
+		new[y++] = value[x++];
 	i = i + diff;
 	while (str[i])
-	{
-		new[y] = str[i];
-		y++;
-		i++;
-	}
+		new[y++] = str[i++];
 	new[y] = '\0';
 	return (new);
 }
