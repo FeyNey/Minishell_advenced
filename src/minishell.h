@@ -6,7 +6,7 @@
 /*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 15:38:59 by aglampor          #+#    #+#             */
-/*   Updated: 2024/09/21 18:03:38 by acoste           ###   ########.fr       */
+/*   Updated: 2024/09/22 16:36:31 by acoste           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,9 @@ char	*replace_venv4(char *str, int i, int j, char *value);
 char	*found_in_env(t_env **env, int index);
 char	*skip_venv(char *str, int i, int j);
 int		not_between_quote(char *str, char c, int j);
-int		is_in_ev_tok(char *arg, t_env *myev);
-char *minishell_venv(char *str, int i, int j);
-char *number_venv(char *str, int i);
+int		is_in_ev_tok(char *arg, t_env *myev, int flag);
+char	*minishell_venv(char *str, int i, int j);
+char	*number_venv(char *str, int i);
+char	*ft_itoa(int n);
+int		is_env_char2(char c);
 #endif

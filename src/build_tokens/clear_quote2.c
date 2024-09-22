@@ -6,7 +6,7 @@
 /*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:00:59 by alexis            #+#    #+#             */
-/*   Updated: 2024/09/21 18:04:04 by acoste           ###   ########.fr       */
+/*   Updated: 2024/09/22 16:35:46 by acoste           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	is_between_quote_and_has_venv(char *word)
 			while (word[i] != 39 && word[i] != '\0')
 				i++;
 		}
-		if (word[i] == '$' && prev != 92)
+		if ((word[i] == '$') && (prev != 92) && (is_env_char2(word[i + 1]) == 0))
 			f = 1;
 		prev = word[i];
 		i++;
@@ -113,7 +113,7 @@ int	is_valable_venv(char *word)
 			while (word[i] != 39 && word[i] != '\0')
 				i++;
 		}
-		if (word[i] == '$' && prev != 92)
+		if ((word[i] == '$') && (prev != 92))
 		{
 			return (i);
 		}
@@ -164,8 +164,8 @@ char	*replace_venv2(char *str, t_env **env)
 			new = replace_venv3(str, env, i, j);
 			str = new;
 			i = 0;
-			// printf(CYAN "\nMid Clean\n" RESET);
-			// printf("%s\n", str);
+			printf(CYAN "\nMid Clean\n" RESET);
+			printf("%s\n", str);
 		}
 	}
 	return (str);
@@ -176,7 +176,7 @@ char	*replace_venv3(char *str, t_env **env, int i, int j)
 	char	*new;
 	int		f;
 
-	f = is_in_ev_tok(str + i + 1, *env);
+	f = is_in_ev_tok(str + i + 1, *env, 0);
 	if (f >= 0)
 	{
 		new = replace_venv4(str, i, j, found_in_env(env, f));
@@ -218,28 +218,29 @@ char	*skip_venv(char *str, int i, int j)
 	int		x;
 	int		y;
 	char	*new;
+	char	*stock;
 
 	x = 0;
 	y = 0;
 	if (str[i + 1] >= '0' && str[i + 1] <= '9')
 		return (number_venv(str, i));
+	else if (str[i + 1] == '$')
+	{
+		stock = ft_itoa((int)getpid());
+		new = replace_venv4(str, i, i + 2, stock);
+		return (free(stock), new);
+	}
+	else if (str[i + 1] == '-')
+		return (replace_venv4(str, i, (j + 1), "himBHs"));
 	new = ft_malloc(ft_strlen(str) - (j - i));
 	while (x < is_valable_venv(str))
-	{
-		new[y] = str[x];
-		y++;
-		x++;
-	}
-	// printf("skip venv x : %i\n", x);
-	x++;
-	while (is_env_char(str[x]) == 0)
+		new[y++] = str[x++];
+	if (is_env_char(str[x + 1] == 1))
+		new[y++] = str[x++];
+	while (is_env_char(str[x]) == 0 && str[x])
 		x++;
 	while (str[x])
-	{
-		new[y] = str[x];
-		y++;
-		x++;
-	}
+		new[y++] = str[x++];
 	new[y] = '\0';
 	return (new);
 }
@@ -319,20 +320,35 @@ int	is_env_char(char c)
 		return (1);
 }
 
-int	is_in_ev_tok(char *arg, t_env *myev)
+// list des caracteres pouvant suivre un $ et aillant une modification
+// particuliere, exemple les $+ doivent rester les meme, si un $ n as
+// pas de lettre apres il doit rester ect...
+// liste des caracteres a modifie
+// ne prend pas en compte $#, $_, $!, $*
+
+int	is_env_char2(char c)
+{
+	if (c == 0)
+		return (1);
+	else if(c == ' ')
+		return (1);
+	else if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c == '_')
+		|| (c >= '0' && c <= '9') || (c == '-') || (c == '$'))
+		return (0);
+	else
+		return (1);
+}
+
+int	is_in_ev_tok(char *arg, t_env *myev, int flag)
 {
 	char	*k;
-	int		flag;
 	int		targ;
 	t_env	*tmp;
 
 	tmp = myev;
 	targ = 0;
-	flag = 0;
 	while (is_env_char(arg[flag]) == 0)
 		flag++;
-	// if (flag == 0)
-	// 	return (-1);
 	k = word_dup(arg, 0, flag);
 	while (myev)
 	{
