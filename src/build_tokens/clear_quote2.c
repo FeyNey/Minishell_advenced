@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clear_quote2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:00:59 by alexis            #+#    #+#             */
-/*   Updated: 2024/09/22 16:43:10 by acoste           ###   ########.fr       */
+/*   Updated: 2024/09/24 08:45:19 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,8 @@ int	is_valable_venv(char *word)
 		}
 		if ((word[i] == '$') && (prev != 92))
 		{
-			return (i);
+			if (word[i + 1])
+				return (i);
 		}
 		prev = word[i];
 		i++;
@@ -164,8 +165,8 @@ char	*replace_venv2(char *str, t_env **env)
 			new = replace_venv3(str, env, i, j);
 			str = new;
 			i = 0;
-			// printf(CYAN "\nMid Clean\n" RESET);
-			// printf("%s\n", str);
+			printf(CYAN "\nMid Clean\n" RESET);
+			printf("%s\n", str);
 		}
 	}
 	return (str);
@@ -184,7 +185,7 @@ char	*replace_venv3(char *str, t_env **env, int i, int j)
 	}
 	else if (f == -1)
 	{
-		new = skip_venv(str, i, j, 0);
+		new = skip_venv(str, i, j);
 		printf(CYAN "\n\n skip venv\n\n" RESET);
 	}
 	free(str);
@@ -209,13 +210,11 @@ char	*found_in_env(t_env **env, int index)
 	return (value);
 }
 
-char	*skip_venv(char *str, int i, int j, int x)
+char	*skip_venv(char *str, int i, int j)
 {
-	int		y;
 	char	*new;
 	char	*stock;
 
-	y = 0;
 	if (str[i + 1] >= '0' && str[i + 1] <= '9')
 		return (number_venv(str, i));
 	else if (str[i + 1] == '$')
@@ -226,11 +225,25 @@ char	*skip_venv(char *str, int i, int j, int x)
 	}
 	else if (str[i + 1] == '-')
 		return (replace_venv4(str, i, (j + 1), "himBHs"));
+	else if (str[i + 1] == 34 || str[i + 1] == 39)
+		return(replace_venv4(str, i, j, ""));
+	else
+		return(skip_venv2(str, i, j));
+}
+
+char *skip_venv2(char *str, int i, int j)
+{
+	char *new;
+	int x;
+	int y;
+	
+	x = 0;
+	y = 0;
 	new = ft_malloc(ft_strlen(str) - (j - i));
 	while (x < is_valable_venv(str))
 		new[y++] = str[x++];
-	// if (is_env_char(str[x + 1] == 1))
-	// 	new[y++] = str[x++];
+	if (is_env_char(str[x + 1]) == 0)
+		x++;
 	while (is_env_char(str[x]) == 0)
 		x++;
 	while (str[x])
@@ -238,6 +251,7 @@ char	*skip_venv(char *str, int i, int j, int x)
 	new[y] = '\0';
 	return (new);
 }
+
 
 char *number_venv(char *str, int i)
 {
@@ -286,6 +300,8 @@ char	*replace_venv4(char *str, int i, int j, char *value)
 
 int	is_env_char(char c)
 {
+	if (c == '$')
+		return(1);
 	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c == '_'))
 		return (0);
 	else
@@ -305,7 +321,7 @@ int	is_env_char2(char c)
 	else if(c == ' ')
 		return (1);
 	else if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c == '_')
-		|| (c >= '0' && c <= '9') || (c == '-') || (c == '$'))
+		|| (c >= '0' && c <= '9') || (c == '-') || (c == '$') || (c == 34) || (c == 39))
 		return (0);
 	else
 		return (1);

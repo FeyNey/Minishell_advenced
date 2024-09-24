@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 11:06:39 by alexis            #+#    #+#             */
-/*   Updated: 2024/09/20 06:03:57 by alexis           ###   ########.fr       */
+/*   Updated: 2024/09/23 14:33:04 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	have_quote(char *cmd)
 	while (cmd[i])
 	{
 		if (!flag && (prev != '\\' && (flag = is_quote(cmd[i]))))
-			; // WTF??
+			;
 		else if (flag && (prev != '\\' && is_quote(cmd[i]) == flag))
 			return (1);
 		prev = cmd[i];

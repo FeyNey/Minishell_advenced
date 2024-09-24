@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+         #
+#    By: alexis <alexis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/27 15:05:19 by aglampor          #+#    #+#              #
-#    Updated: 2024/09/22 12:24:46 by acoste           ###   ########.fr        #
+#    Updated: 2024/09/24 10:16:33 by alexis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,8 @@ SRC_FILES =		env.c\
 			utils/verif.c\
 			build_tokens/clear_quote2.c\
 			utils/triple_join.c\
-			utils/ft_itoa.c
+			utils/ft_itoa.c\
+			builtin/pwd.c
 
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
