@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 15:38:59 by aglampor          #+#    #+#             */
-/*   Updated: 2024/09/24 10:19:52 by alexis           ###   ########.fr       */
+/*   Updated: 2024/10/03 16:22:24 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <signal.h>
 # include <fcntl.h>
 # include <sys/wait.h>
+# include <stdarg.h>
 
 # define RED     "\x1b[31m" // test printf
 # define GREEN   "\x1b[32m"
@@ -188,4 +189,18 @@ void	ft_putstr(char *str);
 void	set_pwd(t_env *env);
 void	set_old_pwd(t_env *env, char *path);
 int    ft_pwd(void);
+
+//printf
+int	longlong_putnbr_base(unsigned long long nb, char *base, int j);
+int	unsigned_putnbr_base(unsigned int nb, char *base);
+int	ft_carrefour(char str, va_list list);
+int	putnbr_base(long nb, char *base);
+int	ft_printf(const char *str, ...);
+int	ft_putchar(char c);
+
+//exit
+int		ft_exit(char **command, t_env **env, t_token **tok);
+void	ft_free_all(t_env **env, t_token **tok);
+int		check_exit_args(char **command);
+
 #endif

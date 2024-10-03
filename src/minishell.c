@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 15:38:59 by aglampor          #+#    #+#             */
-/*   Updated: 2024/09/24 08:10:56 by alexis           ###   ########.fr       */
+/*   Updated: 2024/10/03 18:16:27 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	minishell(t_bag **bag)
 	while (1)
 	{
 		line = readline("MY_minishell : ");
-		if (!line || !ft_cmp("exit", line))
+		if (!line) //|| !ft_cmp("exit", line))
 		{
 			write(1, "exit\n", 5);
 			clear_history();
@@ -42,8 +42,10 @@ int	s_exe(t_token *t, t_env **menv)
 {
 	if (t->type == BUILTIN || t->type == CMD)
 		return (ex_cmd(t, menv));
+	else if (!ft_strncmp(t->value[0], "exit", 4))
+		return (ex_cmd(t, menv));
 	else
-		write(1, "Reflexion++\n", 12);
+		write(1, "Too deal with\n", 14);
 	return (0);
 }
 
@@ -57,8 +59,8 @@ int	main(int ac, char **av, char **ev)
 		return (1);
 	bag->env = NULL;
 	init_env(&(bag->env), ev);
-	// rl_catch_signals = 0;
-	// redirect_signals();
+	rl_catch_signals = 0;
+	redirect_signals();
 	minishell(&bag);
 	free_env((bag->env));
 	free(bag);

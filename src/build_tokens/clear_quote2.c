@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:00:59 by alexis            #+#    #+#             */
-/*   Updated: 2024/09/24 08:45:19 by alexis           ###   ########.fr       */
+/*   Updated: 2024/10/02 08:20:40 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,8 +165,6 @@ char	*replace_venv2(char *str, t_env **env)
 			new = replace_venv3(str, env, i, j);
 			str = new;
 			i = 0;
-			printf(CYAN "\nMid Clean\n" RESET);
-			printf("%s\n", str);
 		}
 	}
 	return (str);
@@ -236,7 +234,7 @@ char *skip_venv2(char *str, int i, int j)
 	char *new;
 	int x;
 	int y;
-	
+
 	x = 0;
 	y = 0;
 	new = ft_malloc(ft_strlen(str) - (j - i));

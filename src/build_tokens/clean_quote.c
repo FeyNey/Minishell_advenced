@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 11:06:39 by alexis            #+#    #+#             */
-/*   Updated: 2024/09/23 14:33:04 by alexis           ###   ########.fr       */
+/*   Updated: 2024/10/02 08:21:12 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	mal_no_quote(char *cmd)
 	}
 	return (n_mall + 1);
 }
-			
+
 char	*dup_no_quote(char *cmd)
 {
 	int		i;
@@ -99,7 +99,6 @@ void	remove_quote(t_token **t)
 	i = 0;
 	while (tmp->value[i])
 	{
-		printf("%s\n", tmp->value[i]);
 		if (!(have_quote(tmp->value[i])))
 			i++;
 		else

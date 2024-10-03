@@ -6,7 +6,7 @@
 #    By: alexis <alexis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/27 15:05:19 by aglampor          #+#    #+#              #
-#    Updated: 2024/09/24 10:16:33 by alexis           ###   ########.fr        #
+#    Updated: 2024/10/03 16:25:42 by alexis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,6 @@ SRC_DIR = src/
 SRC_FILES =		env.c\
 			minishell.c\
 			exe.c\
-			exit.c\
 			signals.c\
 			builtin/f_export_no_arg.c\
 			builtin/f_export_args.c\
@@ -42,7 +41,10 @@ SRC_FILES =		env.c\
 			build_tokens/clear_quote2.c\
 			utils/triple_join.c\
 			utils/ft_itoa.c\
-			builtin/pwd.c
+			builtin/pwd.c\
+			utils/ft_print.c\
+			utils/ft_printf.c\
+			builtin/exit.c
 
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
