@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_quote.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aglampor <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/19 11:06:39 by alexis            #+#    #+#             */
-/*   Updated: 2024/10/02 08:21:12 by alexis           ###   ########.fr       */
+/*   Created: 2024/08/31 14:22:37 by aglampor          #+#    #+#             */
+/*   Updated: 2024/09/03 17:56:46 by aglampor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ int	have_quote(char *cmd)
 	prev = '\0';
 	while (cmd[i])
 	{
-		if (!flag && (prev != '\\' && (flag = is_quote(cmd[i]))))
-			;
+		if (!flag && (prev != '\\' && is_quote(cmd[i])))
+			flag = is_quote(cmd[i]);
 		else if (flag && (prev != '\\' && is_quote(cmd[i]) == flag))
 			return (1);
 		prev = cmd[i];
@@ -46,9 +46,9 @@ int	mal_no_quote(char *cmd)
 	prev = '\0';
 	while (cmd[i])
 	{
-		if (!flag && (prev != '\\' && (flag = is_quote(cmd[i]))))
-			; //WTF
-		else if (flag && (prev != '\\' && is_quote(cmd[i] == flag)))
+		if (!flag && (prev != '\\' && is_quote(cmd[i])))
+			flag = is_quote(cmd[i]);
+		else if (flag && (prev != '\\' && is_quote(cmd[i]) == flag))
 			flag = 0;
 		else if (prev != '\\')
 			n_mall++;
@@ -58,23 +58,19 @@ int	mal_no_quote(char *cmd)
 	return (n_mall + 1);
 }
 
-char	*dup_no_quote(char *cmd)
+void	dup_no_quote(char *cmd, char *new)
 {
 	int		i;
 	int		flag;
 	char	prev;
-	char	*new;
 
-	new = malloc(sizeof(char) * mal_no_quote(cmd));
-	if (!new)
-		return (NULL);
 	i = 0;
 	flag = 0;
 	prev = '\0';
 	while (*cmd)
 	{
-		if (!flag && (prev != '\\' && (flag = is_quote(*cmd))))
-			; //WTF
+		if (!flag && (prev != '\\' && is_quote(*cmd)))
+			flag = is_quote(cmd[i]);
 		else if (flag && (prev != '\\' && is_quote(*cmd) == flag))
 			flag = 0;
 		else if (prev != '\\')
@@ -86,14 +82,13 @@ char	*dup_no_quote(char *cmd)
 		cmd++;
 	}
 	new[i] = '\0';
-	return (new);
 }
 
 void	remove_quote(t_token **t)
 {
-	int		i;
-	char	*new;
+	int			i;
 	t_token	*tmp;
+	char		*new;
 
 	tmp = (*t);
 	i = 0;
@@ -103,8 +98,10 @@ void	remove_quote(t_token **t)
 			i++;
 		else
 		{
-			new = dup_no_quote(tmp->value[i]);
-			printf("cleaned  %s\n", new);
+			new = malloc(sizeof(char) * mal_no_quote(tmp->value[i]));
+			if (!new)
+				return ;
+			dup_no_quote(tmp->value[i], new);
 			free((*t)->value[i]);
 			(*t)->value[i] = new;
 			i++;

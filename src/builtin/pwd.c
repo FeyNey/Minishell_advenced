@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 08:57:16 by alexis            #+#    #+#             */
-/*   Updated: 2024/09/24 10:20:25 by alexis           ###   ########.fr       */
+/*   Updated: 2024/10/09 20:07:02 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,15 +72,14 @@ void	set_old_pwd(t_env *env, char *path)
 	env = tmp;
 }
 
-int    ft_pwd(void)
+int	ft_pwd(void)
 {
 	char *pwd;
 
 	pwd = getcwd(NULL, 0);
 	if (pwd != NULL)
 	{
-		ft_putstr(pwd);
-		ft_putstr("\n");
+		ft_printf("%s\n", pwd);
 		free(pwd);
 	}
 	else

@@ -6,7 +6,7 @@
 #    By: alexis <alexis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/27 15:05:19 by aglampor          #+#    #+#              #
-#    Updated: 2024/10/03 16:25:42 by alexis           ###   ########.fr        #
+#    Updated: 2024/10/09 14:46:42 by alexis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,29 +22,33 @@ SRC_DIR = src/
 
 SRC_FILES =		env.c\
 			minishell.c\
-			exe.c\
+			execute.c\
+			exit.c\
 			signals.c\
 			builtin/f_export_no_arg.c\
 			builtin/f_export_args.c\
 			builtin/f_buildin.c\
 			build_tokens/tok_utils.c\
+			build_tokens/clean_quote.c\
+			build_tokens/clean_pip.c\
 			build_tokens/clean_redir.c\
 			build_tokens/redir_realoc.c\
 			build_tokens/tokens.c\
-			build_tokens/clean_quote.c\
 			utils/split_CMD.c\
 			utils/env_utils.c\
-			utils/utils.c\
 			utils/ft_split.c\
+			utils/exe_utils.c\
+			utils/utils.c\
+			utils/pipe_utils.c\
 			utils/split_ws.c\
 			utils/verif.c\
-			build_tokens/clear_quote2.c\
 			utils/triple_join.c\
+			cd.c\
 			utils/ft_itoa.c\
 			builtin/pwd.c\
+			build_tokens/clear_quote2.c\
 			utils/ft_print.c\
-			utils/ft_printf.c\
-			builtin/exit.c
+			utils/ft_printf.c
 
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))

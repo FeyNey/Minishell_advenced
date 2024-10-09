@@ -1,15 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   f_export_args.c                                    :+:      :+:    :+:   */
+/*   export_args.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: aglampor <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 20:28:06 by aglampor          #+#    #+#             */
-/*   Updated: 2024/09/21 17:20:29 by acoste           ###   ########.fr       */
+/*   Updated: 2024/08/26 17:35:10 by aglampor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "../minishell.h"
 
 static void	add_myenv(char	*arg, t_env **myenv)
@@ -21,6 +20,7 @@ static void	add_myenv(char	*arg, t_env **myenv)
 	{
 		constr = constructor(arg);
 		new = ft_lstnew(constr[0], constr[1]);
+		ft_free_split(constr);
 	}
 	else
 		new = ft_lstnew(arg, "\0");
@@ -34,23 +34,21 @@ int	is_in_ev(char *arg, t_env *myev)
 	int		targ;
 
 	targ = 0;
-	if ((flag = find_c(arg, '=')) != -1) //WTF
-		k = word_dup(arg, 0, flag);
-	else
-		k = arg;
+	flag = ft_strlen(arg);
+	if (find_c(arg, '=') != -1)
+		flag = find_c(arg, '=');
+	k = word_dup(arg, 0, flag);
 	while (myev)
 	{
 		if (!ft_cmp(myev->key, k))
 		{
-			if (flag >= 0)
-				free(k);
+			free(k);
 			return (targ);
 		}
 		targ++;
 		myev = myev->next;
 	}
-	if (flag >= 0)
-		free(k);
+	free(k);
 	return (-1);
 }
 
@@ -93,20 +91,22 @@ static int	env_valable(char *arg)
 			i++;
 		else if (arg[i] == 95)
 			i++;
+		else if (arg[i] == '=')
+			break ;
 		else
 			return (0);
 	}
 	return (1);
 }
 
-int	export_args(t_token	*ts, t_env **myev, int i)
+int	export_args(t_token *ts, t_env **myev, int i)
 {
 	int	id_targ;
 
 	while (ts->value[i])
 	{
 		if (!(env_valable(ts->value[i])))
-			printf("bash: export: << %s >> : identifant non valable\n", ts->value[i]);
+			printf("export: << %s >> : id non valable\n", ts->value[i]);
 		else
 		{
 			id_targ = is_in_ev(ts->value[i], (*myev));

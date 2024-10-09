@@ -6,16 +6,11 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 08:51:49 by alexis            #+#    #+#             */
-/*   Updated: 2024/10/03 18:47:02 by alexis           ###   ########.fr       */
+/*   Updated: 2024/10/09 14:31:44 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
-
-int	check_long(char **command)
-{
-
-}
+#include "minishell.h"
 
 int	check_exit_args(char **command)
 {
@@ -26,8 +21,7 @@ int	check_exit_args(char **command)
 			i++;
 	while (command[1][i])
 	{
-		if ((command[1][i] < '0' || command[1][i] > '9')
-			|| (check_long(command) == 1))
+		if ((command[1][i] < '0' || command[1][i] > '9'))
 		{
 			ft_printf("bash: exit: %s: numeric argument required", command[1]);
 			return (1);

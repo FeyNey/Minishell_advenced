@@ -3,20 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   split_CMD.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 19:20:48 by acoste            #+#    #+#             */
-/*   Updated: 2024/09/20 09:54:43 by alexis           ###   ########.fr       */
+/*   Updated: 2024/08/28 14:43:40 by aglampor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "../minishell.h"
+
+int     nb_token(t_token *tok)
+{
+        int             cnt;
+        t_token *tmp;
+
+        tmp = tok;
+        cnt = 0;
+        while(tmp)
+        {
+                cnt++;
+                tmp = tmp->next;
+        }
+        return (cnt);
+}
 
 static int	count_wrd_input(char *str)
 {
 	int	i;
 	int	words;
-
+	if (!str)
+		return (0);
 	i = 0;
 	words = 0;
 	while (str[i])
@@ -57,7 +72,7 @@ char	**split_input(char *str)
 {
 	char	**arr;
 	int		words;
-
+	
 	words = count_wrd_input(str);
 	arr = malloc(sizeof(char *) * (words + 1));
 	if (!arr)
@@ -65,6 +80,8 @@ char	**split_input(char *str)
 	arr[words] = 0;
 	cmd_split(arr, str);
 	free(str);
+	if (arr[0] == 0)
+		free(arr);
 	return (arr);
 }
 
@@ -77,6 +94,8 @@ cmd argument | cmd arg arg arg | cmd > file > 2 > 3 > file2 |
 cdm argument
 cmd arg arg arg
 cmd > file > 2 > 3 file2
+
+
 
 cmd = 0;
 

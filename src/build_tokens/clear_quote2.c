@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:00:59 by alexis            #+#    #+#             */
-/*   Updated: 2024/10/02 08:20:40 by alexis           ###   ########.fr       */
+/*   Updated: 2024/10/09 14:44:25 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,12 +179,10 @@ char	*replace_venv3(char *str, t_env **env, int i, int j)
 	if (f >= 0)
 	{
 		new = replace_venv4(str, i, j, found_in_env(env, f));
-		printf(CYAN "\n\n replace venv\n\n" RESET);
 	}
 	else if (f == -1)
 	{
 		new = skip_venv(str, i, j);
-		printf(CYAN "\n\n skip venv\n\n" RESET);
 	}
 	free(str);
 	return (new);

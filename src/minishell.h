@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 15:38:59 by aglampor          #+#    #+#             */
-/*   Updated: 2024/10/03 16:22:24 by alexis           ###   ########.fr       */
+/*   Updated: 2024/10/09 14:44:01 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,6 @@
 # include <fcntl.h>
 # include <sys/wait.h>
 # include <stdarg.h>
-
-# define RED     "\x1b[31m" // test printf
-# define GREEN   "\x1b[32m"
-# define CYAN    "\x1b[36m"
-# define MAGENTA "\x1b[35m"
-# define YELLOW  "\x1b[33m"
-# define RESET   "\x1b[0m"
 
 # define OPTION 1
 # define DIRECTORY 2
@@ -76,6 +69,7 @@ typedef struct s_bag
 	struct s_local_var		*local_v;
 }	t_bag;
 
+
 //build_ft
 void	ft_lstadd_back(t_env **alst, t_env *new);
 t_env	*ft_lstnew(char *key, char *value);
@@ -88,24 +82,32 @@ char	**constructor(char *s);
 void	free_env(t_env	*p);
 void	init_env(t_env **env, char **ev);
 
-//exit
-void	m_exit(int code, char *val);
-
 //export
 int		export_no_arg(t_env *e);
 int		export_args(t_token *ts, t_env **myev, int i);
 int		is_in_ev(char *arg, t_env *myev);
 
-//cleaning
+//clean_pipe
+int	pipok(t_bag **bag);
+void	cleanpip(t_token **t);
+int		is_ok(t_bag **bag);
+
+//clean_quote
+int		have_quote(char *cmd);
+int		mal_no_quote(char *cmd);
+void	remove_quote(t_token **t);
+void	dup_no_quote(char *cmd, char *new);
+
+//clean_redir
 void	refresh_tok(t_token **t, char *fic, int type_redir);
 void	remove_redir(t_token **ts);
-void	remove_quote(t_token **t);
-char	*dup_no_quote(char *cmd);
-int		mal_no_quote(char *cmd);
+char	*owr(char *cmd);
 int		open_file(char *fic_name, int redir);
 int		redir_type(char *cmd);
+int		ft_heardoc(char *end);
+
+//redir_realoc
 char	**redir_realloc(t_token **token);
-char	*owr(char *cmd);
 
 //f_builtin
 int		ft_export(t_token *t, t_env **myEnv);
@@ -113,12 +115,14 @@ int		ft_env(t_token *t, t_env *menv);
 int		ft_unset(char **cmds, t_env **menv);
 
 //split_CMD
+int		nb_token(t_token *t);
 char	**ft_split(char *s, char c);
 char	**split_input(char *s);
 void	ft_free_split(char **split);
 int		ft_strlen(char *s);
 
 //token
+void    clean_tok(t_bag **bag);
 void	printtok(t_token **t);
 void	build_tokens(char *line, t_bag **bag);
 
@@ -134,11 +138,12 @@ void	free_tokens(t_token *p);
 char	*ft_strjoin_t(char *strt, char *mid, char *end);
 void	ft_strcpy(char *str, char *dest);
 
-//minishell
-int		s_exe(t_token *t, t_env **menv);
-
 //exe
-int		ex_cmd(t_token *ts, t_env **e);
+int		tokens_exe(t_token *t, t_env **env, t_bag *bag);
+int		exe_builtin(t_token *ts, t_env **e);
+int		exe_shell(t_token *t, t_env *menv);
+void	redir(t_token *t, t_env **env);
+int		cmd_exe(t_token *t, t_env **menv);
 
 //split_ws
 char	**splt_white(char *s);
@@ -153,6 +158,17 @@ char	*ft_strdup(char *str);
 int		is_empty_line(char *line);
 int		is_quote(char c);
 
+//exe_utils
+char	*test_path(char **l_path, char *cmd);
+char	*tru_path(char *ex_cmd, t_env *mev);
+char	**get_ex_env(t_env *ev);
+
+//pipe_utils
+void	daddy_rout(int **pfd, int nb_fork, pid_t last_pid);
+int		**build_pipe(int nb_t);
+void	handle_pip(int **pipefd, int i);
+void	free_pipes(int **pipefd);
+
 //verif
 int		is_builtin(char *s);
 int		is_cmd(char *s, t_env *env);
@@ -163,6 +179,32 @@ int		is_redir(char *s);
 void	sigquit_handler(int signal);
 void	sigint_handler(int signal);
 void	redirect_signals(void);
+void	print_err(char *t);
+
+//pwd
+void	ft_putstr(char *str);
+void	set_pwd(t_env *env);
+void	set_old_pwd(t_env *env, char *path);
+int		ft_pwd(void);
+
+//exit
+int		ft_exit(char **command, t_env **env, t_token **tok);
+void	ft_free_all(t_env **env, t_token **tok);
+int		check_exit_args(char **command);
+
+//cd
+char	*search_in_ev(char *value, t_env *env);
+int		check_arg_cd(char **value, t_env **env);
+int		ft_cd(char **value, t_env **env);
+int		check_exception_cd(char *value, t_env *env);
+
+//printf
+int		longlong_putnbr_base(unsigned long long nb, char *base, int j);
+int		unsigned_putnbr_base(unsigned int nb, char *base);
+int		ft_carrefour(char str, va_list list);
+int		putnbr_base(long nb, char *base);
+int		ft_printf(const char *str, ...);
+int		ft_putchar(char c);
 
 //clear_quote2
 void	replace_venv1(t_token *tok, t_env **env, char **str);
@@ -183,24 +225,4 @@ char	*number_venv(char *str, int i);
 char	*ft_itoa(int n);
 int		is_env_char2(char c);
 int		ft_strncmp(char *s1, char *s2, int n);
-
-//pwd
-void	ft_putstr(char *str);
-void	set_pwd(t_env *env);
-void	set_old_pwd(t_env *env, char *path);
-int    ft_pwd(void);
-
-//printf
-int	longlong_putnbr_base(unsigned long long nb, char *base, int j);
-int	unsigned_putnbr_base(unsigned int nb, char *base);
-int	ft_carrefour(char str, va_list list);
-int	putnbr_base(long nb, char *base);
-int	ft_printf(const char *str, ...);
-int	ft_putchar(char c);
-
-//exit
-int		ft_exit(char **command, t_env **env, t_token **tok);
-void	ft_free_all(t_env **env, t_token **tok);
-int		check_exit_args(char **command);
-
 #endif

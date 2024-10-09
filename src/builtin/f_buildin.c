@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   f_buildin.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aglampor <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 19:59:06 by aglampor          #+#    #+#             */
-/*   Updated: 2024/09/20 06:14:20 by alexis           ###   ########.fr       */
+/*   Updated: 2024/08/26 16:55:10 by aglampor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "../minishell.h"
 
 int	ft_export(t_token *t, t_env **myEnv)
@@ -53,7 +52,7 @@ int	ft_unset(char **cmds, t_env **menv)
 	while (cmds[i])
 	{
 		id_targ = is_in_ev(cmds[i], (*menv));
-		if (id_targ != -1)
+		if (ft_cmp("_", cmds[i]) != 0 && id_targ != -1)
 			ft_delnode_idx(menv, id_targ);
 		else
 			i++;

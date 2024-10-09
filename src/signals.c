@@ -24,6 +24,11 @@ void	sigint_handler(int signal)
 	}
 }
 
+void	print_err(char *t)
+{
+	printf("bash: syntax error near %s unexpected token\n",t);
+}
+
 void	sigquit_handler(int signal)
 {
 	(void)signal;

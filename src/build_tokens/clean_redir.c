@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aglampor <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 14:22:37 by aglampor          #+#    #+#             */
-/*   Updated: 2024/09/19 11:17:05 by alexis           ###   ########.fr       */
+/*   Updated: 2024/09/03 17:56:46 by aglampor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,11 @@ int	open_file(char *fic_name, int redir)
 {
 	int	fd;
 
-	if (redir == RRIN || redir == RROUT)
-		fd = open(fic_name, O_WRONLY | O_CREAT | O_APPEND, 0777);
-	else
+	if (redir == RIN)
+		fd = open(fic_name, O_RDONLY, 0777);
+	else if (redir == ROUT)
+		fd = open(fic_name, O_WRONLY | O_CREAT, 0777);
+	else if (redir == RROUT)
 		fd = open(fic_name, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	return (fd);
 }
@@ -63,7 +65,10 @@ void	refresh_tok(t_token **t, char *fic, int type_redir)
 {
 	int	fd;
 
-	fd = open_file(fic, type_redir);
+	if (type_redir != RRIN)
+		fd = open_file(fic, type_redir);
+	else
+		fd = ft_heardoc(fic);
 	if (type_redir == RIN || type_redir == RRIN)
 	{
 		if ((*t)->fdin)
@@ -81,7 +86,7 @@ void	refresh_tok(t_token **t, char *fic, int type_redir)
 //repalce selon la redir
 void	remove_redir(t_token **ts)
 {
-	int			i;
+	int	i;
 	t_token		*p_first;
 
 	p_first = (*ts);
@@ -92,7 +97,6 @@ void	remove_redir(t_token **ts)
 		{
 			if (redir_type((*ts)->value[i]))
 			{
-				printf("%s is redir\n", (*ts)->value[i]);
 				(*ts)->value = redir_realloc(&(*ts));
 				break ;
 			}

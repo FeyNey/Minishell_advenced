@@ -3,14 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   redir_realoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aglampor <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 15:46:24 by aglampor          #+#    #+#             */
-/*   Updated: 2024/09/19 11:24:06 by alexis           ###   ########.fr       */
+/*   Updated: 2024/09/03 18:09:39 by aglampor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "../minishell.h"
+
+int	ft_heardoc(char *end)
+{
+	int		fd[2];
+	char	*line;
+
+	if (pipe(fd) == -1)
+		return (-1);
+	while (1)
+	{
+		line = readline("> ");
+		if (!(ft_cmp(line, end)))
+			break;
+		write(fd[1], line, ft_strlen(end));
+		write(fd[1], "\n", 1);
+		free(line);
+	}
+	close(fd[1]);
+	free(line);
+	return (fd[0]);
+}
+
 
 static int	count_redir(char **cmds)
 {
@@ -39,8 +60,9 @@ int	handle_redir(char *s1, char *s2, int type, t_token **p_tok)
 {
 	char	*fic_name;
 
-	if ((fic_name = owr(s1))) //?? pas bon
+	if (owr(s1))
 	{
+		(fic_name = owr(s1));
 		refresh_tok(p_tok, fic_name, type);
 		return (1);
 	}
@@ -52,35 +74,41 @@ int	handle_redir(char *s1, char *s2, int type, t_token **p_tok)
 	return (1);
 }
 
-char	**redir_realloc(t_token **token)
+static void	tok_no_redir(char **stash, t_token **t)
 {
 	int		i;
 	int		j;
 	int		type;
-	char	**stash;
-	char	**tmp;
+	char	**cmd;
 
 	i = 0;
 	j = 0;
-	tmp = (*token)->value;
-	stash = malloc(sizeof(char *) * (count_redir((*token)->value) + 1));
-	// printf("%d\n",count_redir((*token)->value));
-	if (!stash)
-		return (0);
-	while (tmp[j])
+	cmd = (*t)->value;
+	while (cmd[j])
 	{
-		if ((type = redir_type(tmp[j]))) //?? pas bon
-			j += handle_redir(tmp[j], tmp[j + 1], type, token);
+		if (redir_type(cmd[j]))
+		{
+			type = redir_type(cmd[j]);
+			j += handle_redir(cmd[j], cmd[j + 1], type, t);
+		}
 		else
 		{
-			// printf("%d index tmp\n",j);
-			stash[i] = ft_strdup(tmp[j]);
-			// printf("%s\n",stash[i]);
+			stash[i] = ft_strdup(cmd[j]);
 			j++;
 			i++;
 		}
 	}
 	stash[i] = 0;
+}
+
+char	**redir_realloc(t_token **token)
+{
+	char	**stash;
+
+	stash = malloc(sizeof(char *) * (count_redir((*token)->value) + 1));
+	if (!stash)
+		return (0);
+	tok_no_redir(stash, token);
 	if (((*token)->value))
 		ft_free_split((*token)->value);
 	return (stash);
