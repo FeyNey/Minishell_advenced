@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 08:29:22 by alexis            #+#    #+#             */
-/*   Updated: 2024/10/09 19:50:49 by alexis           ###   ########.fr       */
+/*   Updated: 2024/10/09 22:38:26 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,20 +42,21 @@ int	check_arg_cd(char **value, t_env **env)
 		i++;
 	if (i > 2)
 	{
-		ft_printf("bash: cd: too many arguments");
+		ft_printf("bash: cd: too many arguments\n");
 		return (0);
 	}
-	if (i == 1)
+	if (i == 2)
 	{
 		oldpwd = getcwd(NULL, 0);
-		printf("value[1] = %s\n", value[1]);
 		if (chdir(value[1]) != 0)
 		{
-			ft_printf("bash: cd: %s: No such file or directory", value[1]);
+			ft_printf("bash: cd: %s: No such file or directory\n", value[1]);
+			free(oldpwd);
 			return (1);
 		}
 		set_old_pwd(*env, oldpwd);
 		set_pwd(*env);
+		free(oldpwd);
 	}
 	return (0);
 }
@@ -63,11 +64,15 @@ int	check_arg_cd(char **value, t_env **env)
 int	ft_cd(char **value, t_env **env)
 {
 	char *path;
+
 	if (!(value[1]))
 	{
+		path = getcwd(NULL, 0);
+		set_old_pwd(*env, path);
+		free(path);
 		path = search_in_ev("HOME", *env);
-		printf("path = %s\n", path);
 		chdir(path);
+		set_pwd(*env);
 	}
 	if (value[1])
 	{
@@ -77,7 +82,7 @@ int	ft_cd(char **value, t_env **env)
 			return (0);
 	}
 	if (chdir(search_in_ev("HOME", *env)) != 0)
-		ft_printf("bash: cd: HOME not set");
+		ft_printf("bash: cd: HOME not set\n");
 	return (0);
 }
 
@@ -90,19 +95,24 @@ int	check_exception_cd(char *value, t_env *env)
 	{
 		if (chdir(search_in_ev("HOME", env)) != 0)
 		{
-			ft_printf("bash: cd: HOME not set");
-			return (1);
+			ft_printf("bash: cd: HOME not set\n");
+			set_old_pwd(env, oldpwd);
+			set_pwd(env);
+			free(oldpwd);
+			return (0);
 		}
 	}
 	if ((value[0] == '-') && (value[1] == '-') && (!(value[2])))
 	{
 		if (chdir(search_in_ev("HOME", env)) != 0)
 		{
-			ft_printf("bash: cd: HOME not set");
+			ft_printf("bash: cd: HOME not set\n");
+			set_old_pwd(env, oldpwd);
+			set_pwd(env);
+			free(oldpwd);
 			return (0);
 		}
 	}
-	set_old_pwd(env, oldpwd);
-	set_pwd(env);
-	return (0);
+	free(oldpwd);
+	return (1);
 }

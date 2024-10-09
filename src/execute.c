@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 16:21:36 by aglampor          #+#    #+#             */
-/*   Updated: 2024/10/09 20:02:51 by alexis           ###   ########.fr       */
+/*   Updated: 2024/10/09 21:24:10 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	tokens_exe(t_token *t, t_env **env, t_bag *bag)
 	i = 0;
 	if(!t->next && t->type == BUILTIN)
 			return (exe_builtin(t, env));
+	exit_exe(bag, t->value);
 	pipefd = build_pipe(nb_tok);
 	while (t)
 	{

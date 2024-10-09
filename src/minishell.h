@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 15:38:59 by aglampor          #+#    #+#             */
-/*   Updated: 2024/10/09 14:44:01 by alexis           ###   ########.fr       */
+/*   Updated: 2024/10/09 21:20:47 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,7 @@ void	set_old_pwd(t_env *env, char *path);
 int		ft_pwd(void);
 
 //exit
-int		ft_exit(char **command, t_env **env, t_token **tok);
+int		ft_exit(char **command, t_env **env, t_token **tok, t_bag *bag);
 void	ft_free_all(t_env **env, t_token **tok);
 int		check_exit_args(char **command);
 
@@ -225,4 +225,6 @@ char	*number_venv(char *str, int i);
 char	*ft_itoa(int n);
 int		is_env_char2(char c);
 int		ft_strncmp(char *s1, char *s2, int n);
+
+void	exit_exe(t_bag *bag, char **command);
 #endif

@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 15:38:59 by aglampor          #+#    #+#             */
-/*   Updated: 2024/10/09 20:10:06 by alexis           ###   ########.fr       */
+/*   Updated: 2024/10/09 21:20:36 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,15 @@ static int	token_ctrl(char *line, t_bag **bag)
 	return (1);
 }
 
+void	exit_exe(t_bag *bag, char **command)
+{
+	if (!ft_strncmp(command[0], "exit", 4)
+		&& (command[0][4] == 0 || command[0][4] == '\n'
+		|| command[0][4] == ' '))
+	{
+		ft_exit(command, &(bag->env), &(bag->tokens), bag);
+	}
+}
 
 static int	minishell(t_bag **bag)
 {
@@ -40,7 +49,6 @@ static int	minishell(t_bag **bag)
 		(*bag)->tokens = NULL;
 		if (token_ctrl(line, bag))
 			tokens_exe((*bag)->tokens, &(*bag)->env, *bag);
-		// ft_exit((*bag)->tokens->value, &((*bag)->env), &((*bag)->tokens));
 		free_tokens((*bag)->tokens);
 	}
 	clear_history();

@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 08:51:49 by alexis            #+#    #+#             */
-/*   Updated: 2024/10/09 14:31:44 by alexis           ###   ########.fr       */
+/*   Updated: 2024/10/09 21:12:46 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,14 @@ int	check_exit_args(char **command)
 	return(1);
 }
 
-int	ft_exit(char **command, t_env **env, t_token **tok)
+int	ft_exit(char **command, t_env **env, t_token **tok, t_bag *bag)
 {
-	if (!ft_strncmp(command[0], "exit", 4)
-		&& (command[0][4] == 0 || command[0][4] == '\n'
-		|| command[0][4] == ' '))
 	{
 		write(1, "exit\n", 5);
 		if (!command[1])
 		{
 			ft_free_all(env, tok);
+			free(bag);
 			exit(EXIT_SUCCESS);
 		}
 		else
@@ -56,6 +54,7 @@ int	ft_exit(char **command, t_env **env, t_token **tok)
 			if (check_exit_args(command) == 1)
 			{
 				ft_free_all(env, tok);
+				free(bag);
 				exit(EXIT_SUCCESS);
 			}
 		}
