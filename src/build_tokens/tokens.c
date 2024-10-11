@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token.c                                            :+:      :+:    :+:   */
+/*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 17:16:34 by aglampor          #+#    #+#             */
-/*   Updated: 2024/09/03 16:54:43 by aglampor         ###   ########.fr       */
+/*   Updated: 2024/10/10 11:54:29 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	clean_tok(t_bag **bag)
 	}
 }
 
-/*void	printtok(t_token **t)
+void	printtok(t_token **t)
 {
 	t_token	*tmp;
 	int		i;
@@ -61,11 +61,10 @@ void	clean_tok(t_bag **bag)
 			printf("value %s\n", tmp->value[i]);
 			i++;
 		}
-		printf("type %d\n", tmp->type);
 		tmp = tmp->next;
 	}
 }
-*/
+
 void	build_tokens(char *line, t_bag **bag)
 {
 	int	i;
@@ -74,7 +73,7 @@ void	build_tokens(char *line, t_bag **bag)
 	if (!ft_verif_line(line))
 		return ;
 	while (line[i] && i < ft_strlen(line))
-	{	
+	{
 		while (is_white(line[i]))
 			i++;
 		if (line[i])

@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 21:00:59 by alexis            #+#    #+#             */
-/*   Updated: 2024/10/09 14:44:25 by alexis           ###   ########.fr       */
+/*   Updated: 2024/10/11 11:36:58 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,6 +223,12 @@ char	*skip_venv(char *str, int i, int j)
 		return (replace_venv4(str, i, (j + 1), "himBHs"));
 	else if (str[i + 1] == 34 || str[i + 1] == 39)
 		return(replace_venv4(str, i, j, ""));
+	else if (str[i + 1] == '?')
+	{
+		stock = ft_itoa(global_variable(0, 1));
+		new = replace_venv4(str, i, i + 2, stock);
+		return (free(stock), new);
+	}
 	else
 		return(skip_venv2(str, i, j));
 }
@@ -317,7 +323,8 @@ int	is_env_char2(char c)
 	else if(c == ' ')
 		return (1);
 	else if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c == '_')
-		|| (c >= '0' && c <= '9') || (c == '-') || (c == '$') || (c == 34) || (c == 39))
+		|| (c >= '0' && c <= '9') || (c == '-') || (c == '$') || (c == 34)
+		|| (c == 39) || (c == '?'))
 		return (0);
 	else
 		return (1);

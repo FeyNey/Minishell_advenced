@@ -3,27 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   split_CMD.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 19:20:48 by acoste            #+#    #+#             */
-/*   Updated: 2024/08/28 14:43:40 by aglampor         ###   ########.fr       */
+/*   Updated: 2024/10/11 08:54:49 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "../minishell.h"
 
-int     nb_token(t_token *tok)
+int	nb_token(t_token *tok)
 {
-        int             cnt;
-        t_token *tmp;
+	int	cnt;
+	t_token *tmp;
 
-        tmp = tok;
-        cnt = 0;
-        while(tmp)
-        {
-                cnt++;
-                tmp = tmp->next;
-        }
-        return (cnt);
+		tmp = tok;
+		cnt = 0;
+		while(tmp)
+		{
+			cnt++;
+			tmp = tmp->next;
+		}
+		return (cnt);
 }
 
 static int	count_wrd_input(char *str)
@@ -72,7 +73,7 @@ char	**split_input(char *str)
 {
 	char	**arr;
 	int		words;
-	
+
 	words = count_wrd_input(str);
 	arr = malloc(sizeof(char *) * (words + 1));
 	if (!arr)
@@ -85,27 +86,3 @@ char	**split_input(char *str)
 	return (arr);
 }
 
-// problem si on envoie '\0' en input le split il casse
-// je sais pas si je le regle (surtout comemnt le regler)
-
-/*
-cmd argument | cmd arg arg arg | cmd > file > 2 > 3 > file2 |
-
-cdm argument
-cmd arg arg arg
-cmd > file > 2 > 3 file2
-
-
-
-cmd = 0;
-
-EXECVE(cmd);
-
-argument = 1
-| = 2;
-> = 3;
-< = 4;
->> = 5;
-<< = 6;
-file = 7;
-*/

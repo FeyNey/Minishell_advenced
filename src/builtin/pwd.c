@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 08:57:16 by alexis            #+#    #+#             */
-/*   Updated: 2024/10/09 22:40:10 by alexis           ###   ########.fr       */
+/*   Updated: 2024/10/11 09:41:21 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,7 @@ void	set_pwd(t_env *env)
 {
 	t_env	*tmp;
 	char *pwd;
-	int i;
 
-	i = 0;
 	tmp = env;
 	pwd = getcwd(NULL, 0);
 	if (pwd == NULL)
@@ -45,10 +43,8 @@ void	set_pwd(t_env *env)
 			free(env->value);
 			env->value = pwd;
 			printf("new pwd modif too : %s\n", pwd);
-			printf("\n\n%i\n\n", i);
 		}
 		env = env->next;
-		i++;
 	}
 	env = tmp;
 }
@@ -76,10 +72,28 @@ void	set_old_pwd(t_env *env, char *path)
 	env = tmp;
 }
 
-int	ft_pwd(void)
+int	check_option_pwd(char *value)
+{
+	if (value[0] == '-' && (!value[1]))
+	{
+		ft_printf("bash: pwd: %s: invalid option\n", value);
+		return(1);
+	}
+	if (value[0] == '-' && (value[1] == '-'))
+	{
+		ft_printf("bash: pwd: --: invalid option\n");
+		return(1);
+	}
+	return(0);
+}
+
+int	ft_pwd(char **value)
 {
 	char *pwd;
 
+	if (value[1])
+		if (check_option_pwd(value[1]) == 1)
+			return(0);
 	pwd = getcwd(NULL, 0);
 	if (pwd != NULL)
 	{
@@ -88,7 +102,9 @@ int	ft_pwd(void)
 	}
 	else
 	{
-		ft_putstr("error pwd");
+		ft_printf("pwd: error retrieving current directory: getcwd: ");
+		ft_printf("cannot access parent directories: ");
+		ft_printf("No such file or directory\n");
 		return (-1);
 	}
 	return(0);

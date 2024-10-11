@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   f_buildin.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aglampor <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 19:59:06 by aglampor          #+#    #+#             */
-/*   Updated: 2024/08/26 16:55:10 by aglampor         ###   ########.fr       */
+/*   Updated: 2024/10/11 09:07:30 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "../minishell.h"
 
 int	ft_export(t_token *t, t_env **myEnv)
@@ -33,10 +34,7 @@ int	ft_env(t_token *t, t_env *menv)
 	{
 		if (tmp->value[0] != '\0')
 		{
-			write(1, tmp->key, ft_strlen(tmp->key));
-			write(1, "=", 1);
-			write(1, tmp->value, ft_strlen(tmp->value));
-			write(1, "\n", 1);
+			ft_printf("%s=%s\n", tmp->key, tmp->value);
 		}
 		tmp = tmp->next;
 	}

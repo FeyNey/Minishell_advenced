@@ -6,11 +6,24 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 15:38:59 by aglampor          #+#    #+#             */
-/*   Updated: 2024/10/09 21:20:36 by alexis           ###   ########.fr       */
+/*   Updated: 2024/10/11 11:53:13 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	global_variable(int i, int sw)
+{
+	static int global = 0;
+
+	if (sw == 0)
+	{
+		global = i;
+	}
+	if (sw == 1)
+		return(global);
+	return(0);
+}
 
 static int	token_ctrl(char *line, t_bag **bag)
 {
@@ -18,9 +31,12 @@ static int	token_ctrl(char *line, t_bag **bag)
 	free(line);
 	if (!is_ok(bag))
 		return (0);
+	replace_venv1((*bag)->tokens, (&((*bag)->env)), (*bag)->tokens->value);
 	clean_tok(bag);
+	printtok(&((*bag)->tokens));
 	return (1);
 }
+
 
 void	exit_exe(t_bag *bag, char **command)
 {
@@ -67,7 +83,7 @@ int	main(int ac, char **av, char **ev)
 	bag->env = NULL;
 	init_env(&(bag->env), ev);
 	rl_catch_signals = 0;
-	// redirect_signals();
+	redirect_signals();
 	minishell(&bag);
 	free_env((bag->env));
 	free(bag);

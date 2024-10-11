@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 16:21:36 by aglampor          #+#    #+#             */
-/*   Updated: 2024/10/09 21:24:10 by alexis           ###   ########.fr       */
+/*   Updated: 2024/10/11 11:52:51 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	exe_shell(t_token *t, t_env *menv)
 	else
 		t_path = tru_path(t->value[0], menv);
 	if (t_path)
-		execve(t_path, t->value, exe_env);
+		global_variable(execve(t_path, t->value, exe_env), 0);
 	ft_free_split(exe_env);
 	return (0);
 }
@@ -101,7 +101,7 @@ int	exe_builtin(t_token *ts, t_env **e)
 	else if (!ft_cmp("unset", ts->value[0]))
 		return (ft_unset(ts->value, e));
 	else if (!ft_cmp("pwd", ts->value[0]))
-		return (ft_pwd());
+		return (ft_pwd(ts->value));
 	else if (!ft_cmp("cd", ts->value[0]))
 		return (ft_cd(ts->value, e));
 	return (printf("CODE the nxt BUILTIN\n"));

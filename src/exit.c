@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 08:51:49 by alexis            #+#    #+#             */
-/*   Updated: 2024/10/09 21:12:46 by alexis           ###   ########.fr       */
+/*   Updated: 2024/10/11 11:54:56 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	check_exit_args(char **command)
 		if ((command[1][i] < '0' || command[1][i] > '9'))
 		{
 			ft_printf("bash: exit: %s: numeric argument required", command[1]);
-			return (1);
+			return (global_variable(1, 0), 1);
 		}
 		i++;
 	}
@@ -34,7 +34,7 @@ int	check_exit_args(char **command)
 	if (i > 2)
 	{
 		ft_printf("bash: exit: too many arguments\n");
-		return (2);
+		return (global_variable(1, 0), 2);
 	}
 	return(1);
 }
@@ -55,6 +55,7 @@ int	ft_exit(char **command, t_env **env, t_token **tok, t_bag *bag)
 			{
 				ft_free_all(env, tok);
 				free(bag);
+				printf("A\n");
 				exit(EXIT_SUCCESS);
 			}
 		}

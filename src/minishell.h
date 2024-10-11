@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 15:38:59 by aglampor          #+#    #+#             */
-/*   Updated: 2024/10/09 21:20:47 by alexis           ###   ########.fr       */
+/*   Updated: 2024/10/11 11:25:02 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <fcntl.h>
 # include <sys/wait.h>
 # include <stdarg.h>
+#include <errno.h>
 
 # define OPTION 1
 # define DIRECTORY 2
@@ -185,7 +186,7 @@ void	print_err(char *t);
 void	ft_putstr(char *str);
 void	set_pwd(t_env *env);
 void	set_old_pwd(t_env *env, char *path);
-int		ft_pwd(void);
+int		ft_pwd(char **value);
 
 //exit
 int		ft_exit(char **command, t_env **env, t_token **tok, t_bag *bag);
@@ -227,4 +228,5 @@ int		is_env_char2(char c);
 int		ft_strncmp(char *s1, char *s2, int n);
 
 void	exit_exe(t_bag *bag, char **command);
+int	global_variable(int i, int sw);
 #endif

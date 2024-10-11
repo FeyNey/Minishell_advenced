@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   verif.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aglampor <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 19:47:14 by aglampor          #+#    #+#             */
-/*   Updated: 2024/08/27 18:34:46 by aglampor         ###   ########.fr       */
+/*   Updated: 2024/10/11 08:09:46 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "../minishell.h"
 
 int	ft_verif_line(char *line)
@@ -39,26 +40,26 @@ int	ft_verif_line(char *line)
 	return (1);
 }
 
-static int      test_cmd(char **paths, char *s)
+static int	test_cmd(char **paths, char *s)
 {
-        int     i;
-        char    *test_path;
+	int	i;
+	char	*test_path;
 
-        i = 0;
-        while (paths[i])
-        {
-                test_path = ft_strjoin_t(paths[i], "/", s);
-                if (access(test_path, F_OK | X_OK) == 0)
-                {
-                        ft_free_split(paths);
-                        free(test_path);
-                        return (1);
-                }
-                free(test_path);
-                i++;
-        }
-        ft_free_split(paths);
-        return (0);
+	i = 0;
+	while (paths[i])
+	{
+		test_path = ft_strjoin_t(paths[i], "/", s);
+		if (access(test_path, F_OK | X_OK) == 0)
+		{
+			ft_free_split(paths);
+			free(test_path);
+			return (1);
+		}
+		free(test_path);
+		i++;
+		}
+	ft_free_split(paths);
+	return (0);
 }
 
 int	is_cmd(char *s, t_env *env)
