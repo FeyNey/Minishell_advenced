@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 15:38:59 by aglampor          #+#    #+#             */
-/*   Updated: 2024/10/11 11:25:02 by alexis           ###   ########.fr       */
+/*   Updated: 2024/10/11 14:16:19 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <fcntl.h>
 # include <sys/wait.h>
 # include <stdarg.h>
-#include <errno.h>
+# include <errno.h>
 
 # define OPTION 1
 # define DIRECTORY 2
@@ -70,7 +70,6 @@ typedef struct s_bag
 	struct s_local_var		*local_v;
 }	t_bag;
 
-
 //build_ft
 void	ft_lstadd_back(t_env **alst, t_env *new);
 t_env	*ft_lstnew(char *key, char *value);
@@ -89,7 +88,7 @@ int		export_args(t_token *ts, t_env **myev, int i);
 int		is_in_ev(char *arg, t_env *myev);
 
 //clean_pipe
-int	pipok(t_bag **bag);
+int		pipok(t_bag **bag);
 void	cleanpip(t_token **t);
 int		is_ok(t_bag **bag);
 
@@ -123,7 +122,7 @@ void	ft_free_split(char **split);
 int		ft_strlen(char *s);
 
 //token
-void    clean_tok(t_bag **bag);
+void	clean_tok(t_bag **bag);
 void	printtok(t_token **t);
 void	build_tokens(char *line, t_bag **bag);
 
@@ -198,6 +197,9 @@ char	*search_in_ev(char *value, t_env *env);
 int		check_arg_cd(char **value, t_env **env);
 int		ft_cd(char **value, t_env **env);
 int		check_exception_cd(char *value, t_env *env);
+int		cd_tiret(char *value, t_env *env, char *oldpwd);
+int		cd_all(char *value, t_env *env, char *oldpwd);
+int		swap_pwd_oldpwd(char *pwd, t_env *env);
 
 //printf
 int		longlong_putnbr_base(unsigned long long nb, char *base, int j);
@@ -226,7 +228,14 @@ char	*number_venv(char *str, int i);
 char	*ft_itoa(int n);
 int		is_env_char2(char c);
 int		ft_strncmp(char *s1, char *s2, int n);
+int		is_valable_venv(char *word);
+char	*replace_venv2(char *str, t_env **env);
+char	*replace_venv4(char *str, int i, int j, char *value);
+char	*ft_malloc(int len);
 
 void	exit_exe(t_bag *bag, char **command);
-int	global_variable(int i, int sw);
+int		global_variable(int i, int sw);
+void	pipe_exe(int **pipefd, int i, t_bag *bag);
+int		home_not_set(t_env *env, char *oldpwd);
+
 #endif

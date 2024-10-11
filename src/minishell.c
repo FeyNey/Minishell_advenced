@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 15:38:59 by aglampor          #+#    #+#             */
-/*   Updated: 2024/10/11 11:53:13 by alexis           ###   ########.fr       */
+/*   Updated: 2024/10/11 13:35:59 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 int	global_variable(int i, int sw)
 {
-	static int global = 0;
+	static int	global = 0;
 
 	if (sw == 0)
 	{
 		global = i;
 	}
 	if (sw == 1)
-		return(global);
-	return(0);
+		return (global);
+	return (0);
 }
 
 static int	token_ctrl(char *line, t_bag **bag)
@@ -36,7 +36,6 @@ static int	token_ctrl(char *line, t_bag **bag)
 	printtok(&((*bag)->tokens));
 	return (1);
 }
-
 
 void	exit_exe(t_bag *bag, char **command)
 {

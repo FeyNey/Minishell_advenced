@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_quote.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aglampor <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 14:22:37 by aglampor          #+#    #+#             */
-/*   Updated: 2024/09/03 17:56:46 by aglampor         ###   ########.fr       */
+/*   Updated: 2024/10/11 13:19:05 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	dup_no_quote(char *cmd, char *new)
 void	remove_quote(t_token **t)
 {
 	int			i;
-	t_token	*tmp;
+	t_token		*tmp;
 	char		*new;
 
 	tmp = (*t);

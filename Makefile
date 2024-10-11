@@ -6,7 +6,7 @@
 #    By: alexis <alexis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/27 15:05:19 by aglampor          #+#    #+#              #
-#    Updated: 2024/10/09 14:46:42 by alexis           ###   ########.fr        #
+#    Updated: 2024/10/11 14:16:40 by alexis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,8 +48,11 @@ SRC_FILES =		env.c\
 			builtin/pwd.c\
 			build_tokens/clear_quote2.c\
 			utils/ft_print.c\
-			utils/ft_printf.c
-
+			utils/ft_printf.c\
+			utils/clear_utils.c\
+			build_tokens/env_detection.c\
+			build_tokens/env_analysis.c\
+			cd_utils.c
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 

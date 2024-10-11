@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 08:51:49 by alexis            #+#    #+#             */
-/*   Updated: 2024/10/11 11:54:56 by alexis           ###   ########.fr       */
+/*   Updated: 2024/10/11 13:36:37 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	check_exit_args(char **command)
 
 	i = 0;
 	if (command[1][i] == '-' || command[1][i] == '+')
-			i++;
+		i++;
 	while (command[1][i])
 	{
 		if ((command[1][i] < '0' || command[1][i] > '9'))
@@ -36,7 +36,7 @@ int	check_exit_args(char **command)
 		ft_printf("bash: exit: too many arguments\n");
 		return (global_variable(1, 0), 2);
 	}
-	return(1);
+	return (1);
 }
 
 int	ft_exit(char **command, t_env **env, t_token **tok, t_bag *bag)
@@ -60,7 +60,7 @@ int	ft_exit(char **command, t_env **env, t_token **tok, t_bag *bag)
 			}
 		}
 	}
-	return(0);
+	return (0);
 }
 
 void	ft_free_all(t_env **env, t_token **tok)

@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 19:20:48 by acoste            #+#    #+#             */
-/*   Updated: 2024/10/11 08:54:49 by alexis           ###   ########.fr       */
+/*   Updated: 2024/10/11 13:32:28 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,24 @@
 
 int	nb_token(t_token *tok)
 {
-	int	cnt;
-	t_token *tmp;
+	int		cnt;
+	t_token	*tmp;
 
-		tmp = tok;
-		cnt = 0;
-		while(tmp)
-		{
-			cnt++;
-			tmp = tmp->next;
-		}
-		return (cnt);
+	tmp = tok;
+	cnt = 0;
+	while (tmp)
+	{
+		cnt++;
+		tmp = tmp->next;
+	}
+	return (cnt);
 }
 
 static int	count_wrd_input(char *str)
 {
 	int	i;
 	int	words;
+
 	if (!str)
 		return (0);
 	i = 0;
@@ -85,4 +86,3 @@ char	**split_input(char *str)
 		free(arr);
 	return (arr);
 }
-

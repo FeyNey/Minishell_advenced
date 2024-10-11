@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aglampor <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 14:22:37 by aglampor          #+#    #+#             */
-/*   Updated: 2024/09/03 17:56:46 by aglampor         ###   ########.fr       */
+/*   Updated: 2024/10/11 13:27:17 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,8 @@ void	refresh_tok(t_token **t, char *fic, int type_redir)
 //repalce selon la redir
 void	remove_redir(t_token **ts)
 {
-	int	i;
-	t_token		*p_first;
+	int		i;
+	t_token	*p_first;
 
 	p_first = (*ts);
 	while ((*ts))

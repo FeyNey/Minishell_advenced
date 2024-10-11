@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 19:47:14 by aglampor          #+#    #+#             */
-/*   Updated: 2024/10/11 08:09:46 by alexis           ###   ########.fr       */
+/*   Updated: 2024/10/11 13:33:32 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	ft_verif_line(char *line)
 
 static int	test_cmd(char **paths, char *s)
 {
-	int	i;
+	int		i;
 	char	*test_path;
 
 	i = 0;
@@ -57,7 +57,7 @@ static int	test_cmd(char **paths, char *s)
 		}
 		free(test_path);
 		i++;
-		}
+	}
 	ft_free_split(paths);
 	return (0);
 }

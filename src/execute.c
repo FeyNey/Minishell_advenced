@@ -6,12 +6,11 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 16:21:36 by aglampor          #+#    #+#             */
-/*   Updated: 2024/10/11 11:52:51 by alexis           ###   ########.fr       */
+/*   Updated: 2024/10/11 13:47:55 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 int	cmd_exe(t_token *t, t_env **menv)
 {
@@ -42,8 +41,8 @@ int	tokens_exe(t_token *t, t_env **env, t_bag *bag)
 	(void)bag;
 	nb_tok = nb_token(t);
 	i = 0;
-	if(!t->next && t->type == BUILTIN)
-			return (exe_builtin(t, env));
+	if (!t->next && t->type == BUILTIN)
+		return (exe_builtin(t, env));
 	exit_exe(bag, t->value);
 	pipefd = build_pipe(nb_tok);
 	while (t)
@@ -52,20 +51,23 @@ int	tokens_exe(t_token *t, t_env **env, t_bag *bag)
 		if (pid == -1)
 			return (1);
 		if (!pid)
-		{
-			handle_pip(pipefd, i);
-			free_pipes(pipefd);;
-			cmd_exe(t, env);
-			free_env(*env);
-			free_tokens(t);
-			free(bag);
-			exit(1);
-		}
+			pipe_exe(pipefd, i, bag);
 		t = t->next;
 		i++;
 	}
 	daddy_rout(pipefd, nb_tok, pid);
 	return (0);
+}
+
+void	pipe_exe(int **pipefd, int i, t_bag *bag)
+{
+	handle_pip(pipefd, i);
+	free_pipes(pipefd);
+	cmd_exe(bag->tokens, &(bag->env));
+	free_env(bag->env);
+	free_tokens(bag->tokens);
+	free(bag);
+	exit(1);
 }
 
 int	exe_shell(t_token *t, t_env *menv)

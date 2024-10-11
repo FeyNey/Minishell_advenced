@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 14:59:27 by aglampor          #+#    #+#             */
-/*   Updated: 2024/08/25 20:30:28 by aglampor         ###   ########.fr       */
+/*   Updated: 2024/10/11 13:32:51 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "../minishell.h"
 
 int	**build_pipe(int nb_t)
@@ -24,7 +25,7 @@ int	**build_pipe(int nb_t)
 	{
 		pipefd[i] = malloc(sizeof(int) * 2);
 		if (!pipefd[i])
-		{	
+		{
 			free_pipes(pipefd);
 			return (NULL);
 		}
@@ -41,7 +42,7 @@ void	close_pipe(int **pfd)
 
 	i = 0;
 	while (pfd[i])
-        {
+	{
 		close(pfd[i][0]);
 		close(pfd[i][1]);
 		i++;
@@ -57,12 +58,12 @@ void	handle_pip(int **pipefd, int i)
 	close_pipe(pipefd);
 }
 
-void free_pipes(int **pipefd)
+void	free_pipes(int **pipefd)
 {
 	int	i;
 
 	i = 0;
-	while(pipefd[i])
+	while (pipefd[i])
 	{
 		if (pipefd[i])
 			free(pipefd[i]);
@@ -70,6 +71,7 @@ void free_pipes(int **pipefd)
 	}
 	free(pipefd);
 }
+
 void	daddy_rout(int **pfd, int nb_fork, pid_t last_pid)
 {
 	int		i;
@@ -85,4 +87,3 @@ void	daddy_rout(int **pfd, int nb_fork, pid_t last_pid)
 		i++;
 	}
 }
-

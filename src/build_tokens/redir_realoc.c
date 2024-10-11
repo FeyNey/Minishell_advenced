@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   redir_realoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aglampor <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 15:46:24 by aglampor          #+#    #+#             */
-/*   Updated: 2024/09/03 18:09:39 by aglampor         ###   ########.fr       */
+/*   Updated: 2024/10/11 13:25:49 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "../minishell.h"
 
 int	ft_heardoc(char *end)
@@ -22,7 +23,7 @@ int	ft_heardoc(char *end)
 	{
 		line = readline("> ");
 		if (!(ft_cmp(line, end)))
-			break;
+			break ;
 		write(fd[1], line, ft_strlen(end));
 		write(fd[1], "\n", 1);
 		free(line);
@@ -31,7 +32,6 @@ int	ft_heardoc(char *end)
 	free(line);
 	return (fd[0]);
 }
-
 
 static int	count_redir(char **cmds)
 {
