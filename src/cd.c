@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 08:29:22 by alexis            #+#    #+#             */
-/*   Updated: 2024/10/11 14:14:42 by alexis           ###   ########.fr       */
+/*   Updated: 2024/10/12 00:12:01 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,13 @@ void	chdir_error(char *oldpwd, char *value)
 }
 
 // ft_printf("errno = %i\n", global_variable(0, 1));
+
+void	oldpwd_error(char *oldpwd)
+{
+	free(oldpwd);
+	ft_printf("chdir: error retrieving current directory: getcwd:");
+	ft_printf("cannot access parent directories: No such file or directory\n");
+}
 
 int	check_arg_cd(char **value, t_env **env)
 {
@@ -41,6 +48,8 @@ int	check_arg_cd(char **value, t_env **env)
 	if (i == 2)
 	{
 		oldpwd = getcwd(NULL, 0);
+		if (oldpwd == NULL)
+			return(oldpwd_error(oldpwd), 0);
 		i = chdir(value[1]);
 		if (i != 0)
 			return (chdir_error(oldpwd, value[1]), 1);

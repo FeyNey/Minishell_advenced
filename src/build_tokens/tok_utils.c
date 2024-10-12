@@ -3,18 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   tok_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aglampor <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 15:48:54 by aglampor          #+#    #+#             */
-/*   Updated: 2024/08/28 15:15:22 by aglampor         ###   ########.fr       */
+/*   Updated: 2024/10/11 19:26:05 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "../minishell.h"
 
 void	free_tokens(t_token *p)
 {
 	t_token	*tmp;
 
+	if (!p)
+		return ;
 	while (p)
 	{
 		tmp = p->next;

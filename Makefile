@@ -6,7 +6,7 @@
 #    By: alexis <alexis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/27 15:05:19 by aglampor          #+#    #+#              #
-#    Updated: 2024/10/11 14:16:40 by alexis           ###   ########.fr        #
+#    Updated: 2024/10/11 22:42:09 by alexis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,7 +52,8 @@ SRC_FILES =		env.c\
 			utils/clear_utils.c\
 			build_tokens/env_detection.c\
 			build_tokens/env_analysis.c\
-			cd_utils.c
+			cd_utils.c\
+			builtin/echo.c
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 

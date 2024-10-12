@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 15:38:59 by aglampor          #+#    #+#             */
-/*   Updated: 2024/10/11 14:16:19 by alexis           ###   ########.fr       */
+/*   Updated: 2024/10/11 22:38:24 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,5 +237,8 @@ void	exit_exe(t_bag *bag, char **command);
 int		global_variable(int i, int sw);
 void	pipe_exe(int **pipefd, int i, t_bag *bag);
 int		home_not_set(t_env *env, char *oldpwd);
+
+int	ft_echo_option(char *value);
+int	ft_echo(char **value);
 
 #endif

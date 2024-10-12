@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 19:20:48 by acoste            #+#    #+#             */
-/*   Updated: 2024/10/11 13:32:28 by alexis           ###   ########.fr       */
+/*   Updated: 2024/10/12 01:14:31 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ char	**split_input(char *str)
 {
 	char	**arr;
 	int		words;
+
 
 	words = count_wrd_input(str);
 	arr = malloc(sizeof(char *) * (words + 1));

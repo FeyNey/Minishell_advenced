@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 15:38:59 by aglampor          #+#    #+#             */
-/*   Updated: 2024/10/11 13:35:59 by alexis           ###   ########.fr       */
+/*   Updated: 2024/10/11 19:08:14 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ static int	token_ctrl(char *line, t_bag **bag)
 		return (0);
 	replace_venv1((*bag)->tokens, (&((*bag)->env)), (*bag)->tokens->value);
 	clean_tok(bag);
-	printtok(&((*bag)->tokens));
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 16:21:36 by aglampor          #+#    #+#             */
-/*   Updated: 2024/10/11 13:47:55 by alexis           ###   ########.fr       */
+/*   Updated: 2024/10/12 01:48:30 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ void	pipe_exe(int **pipefd, int i, t_bag *bag)
 	handle_pip(pipefd, i);
 	free_pipes(pipefd);
 	cmd_exe(bag->tokens, &(bag->env));
-	free_env(bag->env);
 	free_tokens(bag->tokens);
+	free_env(bag->env);
 	free(bag);
 	exit(1);
 }
@@ -106,5 +106,7 @@ int	exe_builtin(t_token *ts, t_env **e)
 		return (ft_pwd(ts->value));
 	else if (!ft_cmp("cd", ts->value[0]))
 		return (ft_cd(ts->value, e));
+	else if (!ft_cmp("echo", ts->value[0]))
+		return (ft_echo(ts->value));
 	return (printf("CODE the nxt BUILTIN\n"));
 }
