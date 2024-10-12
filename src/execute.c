@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 16:21:36 by aglampor          #+#    #+#             */
-/*   Updated: 2024/10/12 01:48:30 by alexis           ###   ########.fr       */
+/*   Updated: 2024/10/12 21:18:35 by acoste           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,14 @@ int	cmd_exe(t_token *t, t_env **menv)
 	return (out);
 }
 
+void	pipe_end(t_bag *bag)
+{
+	free_tokens(bag->tokens);
+	free_env(bag->env);
+	free(bag);
+	exit(global_variable(0, 1));
+}
+
 int	tokens_exe(t_token *t, t_env **env, t_bag *bag)
 {
 	pid_t	pid;
@@ -51,7 +59,15 @@ int	tokens_exe(t_token *t, t_env **env, t_bag *bag)
 		if (pid == -1)
 			return (1);
 		if (!pid)
-			pipe_exe(pipefd, i, bag);
+		{
+			handle_pip(pipefd, i);
+			free_pipes(pipefd);
+			cmd_exe(bag->tokens, &(bag->env));
+			free_tokens(bag->tokens);
+			free_env(bag->env);
+			free(bag);
+			exit(1);
+		}
 		t = t->next;
 		i++;
 	}
@@ -59,16 +75,60 @@ int	tokens_exe(t_token *t, t_env **env, t_bag *bag)
 	return (0);
 }
 
-void	pipe_exe(int **pipefd, int i, t_bag *bag)
+/*
+int	tokens_exe(t_token *t, t_env **env, t_bag *bag)
 {
-	handle_pip(pipefd, i);
-	free_pipes(pipefd);
-	cmd_exe(bag->tokens, &(bag->env));
-	free_tokens(bag->tokens);
-	free_env(bag->env);
-	free(bag);
-	exit(1);
+	int		**pipefd;
+	int		nb_tok;
+
+	nb_tok = nb_token(t);
+	if (!t->next && t->type == BUILTIN)
+		return (cmd_exe(t, env));
+	exit_exe(bag, t->value);
+	pipefd = build_pipe(nb_tok);
+	child_exec(bag, pipefd, 0, nb_tok);
+	return (0);
 }
+
+int	child_exec(t_bag *bag, int **pipefd, int i, int nb_tok)
+{
+	int status;
+	pid_t	pid;
+
+	pipefd = build_pipe(nb_tok);
+	while (bag->tokens)
+	{
+		pid = fork();
+		if (pid == -1)
+			return (1);
+		else if (!pid)
+		{
+			handle_pip(pipefd, i);
+			free_pipes(pipefd);
+			cmd_exe(bag->tokens, &(bag->env));
+			pipe_end(bag);
+		}
+		else
+		{
+			waitpid(pid, &status, 0);
+			if (WIFEXITED(status))
+				global_variable(WEXITSTATUS(status), 0);
+		}
+		bag->tokens = bag->tokens->next;
+		i++;
+	}
+	return (daddy_rout(pipefd, nb_tok, pid), 0);
+}
+*/
+
+void	error_execve(char **value)
+{
+	printf("Error code: \n%d\n", errno);
+	if (errno == 2)
+		global_variable(127, 0);
+	printf("bash : %s: %s\n", value[0], strerror(errno));
+}
+
 
 int	exe_shell(t_token *t, t_env *menv)
 {
@@ -87,9 +147,14 @@ int	exe_shell(t_token *t, t_env *menv)
 		}
 	}
 	else
+	{
 		t_path = tru_path(t->value[0], menv);
+	}
 	if (t_path)
-		global_variable(execve(t_path, t->value, exe_env), 0);
+	{
+		if (execve(t_path, t->value, exe_env) == -1)
+			error_execve(t->value);
+	}
 	ft_free_split(exe_env);
 	return (0);
 }
@@ -108,5 +173,5 @@ int	exe_builtin(t_token *ts, t_env **e)
 		return (ft_cd(ts->value, e));
 	else if (!ft_cmp("echo", ts->value[0]))
 		return (ft_echo(ts->value));
-	return (printf("CODE the nxt BUILTIN\n"));
+	return(0);
 }

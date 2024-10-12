@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 21:21:27 by acoste            #+#    #+#             */
-/*   Updated: 2024/10/11 13:37:15 by alexis           ###   ########.fr       */
+/*   Updated: 2024/10/12 19:05:10 by acoste           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	sigint_handler(int signal)
 
 void	print_err(char *t)
 {
-	printf("bash: syntax error near %s unexpected token\n", t);
+	printf("bash: syntax error near '%s' unexpected token\n", t);
 }
 
 void	sigquit_handler(int signal)

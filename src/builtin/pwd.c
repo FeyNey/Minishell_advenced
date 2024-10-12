@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 08:57:16 by alexis            #+#    #+#             */
-/*   Updated: 2024/10/11 13:17:14 by alexis           ###   ########.fr       */
+/*   Updated: 2024/10/12 15:40:53 by acoste           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	set_pwd(t_env *env)
 		{
 			free(env->value);
 			env->value = pwd;
-			printf("new pwd modif too : %s\n", pwd);
 		}
 		env = env->next;
 	}
@@ -65,7 +64,6 @@ void	set_old_pwd(t_env *env, char *path)
 		{
 			free(env->value);
 			env->value = old_pwd;
-			printf("oldpwd modif too : %s\n", old_pwd);
 		}
 		env = env->next;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aglampor <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 16:21:36 by aglampor          #+#    #+#             */
-/*   Updated: 2024/08/28 11:33:18 by aglampor         ###   ########.fr       */
+/*   Updated: 2024/10/12 19:01:40 by acoste           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,15 @@ char	*tru_path(char *ex_cmd, t_env *mev)
 	char	**list_path;
 	char	*path;
 
+	if (ex_cmd[0] == '.' && ex_cmd[1] == '/')
+		return (ex_cmd);
 	while (mev && ft_cmp("PATH", mev->key))
 		mev = mev->next;
 	if (!mev)
+	{
+		global_variable(1, 0); // verif
 		return (0);
+	}
 	list_path = ft_split(mev->value, ':');
 	path = test_path(list_path, ex_cmd);
 	return (path);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 08:51:49 by alexis            #+#    #+#             */
-/*   Updated: 2024/10/11 13:36:37 by alexis           ###   ########.fr       */
+/*   Updated: 2024/10/12 15:38:27 by acoste           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ int	ft_exit(char **command, t_env **env, t_token **tok, t_bag *bag)
 			{
 				ft_free_all(env, tok);
 				free(bag);
-				printf("A\n");
 				exit(EXIT_SUCCESS);
 			}
 		}

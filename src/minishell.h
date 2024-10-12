@@ -6,7 +6,7 @@
 /*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 15:38:59 by aglampor          #+#    #+#             */
-/*   Updated: 2024/10/12 14:27:20 by acoste           ###   ########.fr       */
+/*   Updated: 2024/10/12 21:11:55 by acoste           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,5 +240,8 @@ int		home_not_set(t_env *env, char *oldpwd);
 
 int		ft_echo_option(char *value);
 int		ft_echo(char **value);
+void	pipe_end(t_bag *bag);
+void	error_execve(char **value);
+int		child_exec(t_bag *bag, int **pipefd, int i, int nb_tok);
 
 #endif
