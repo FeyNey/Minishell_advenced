@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 15:38:59 by aglampor          #+#    #+#             */
-/*   Updated: 2024/10/12 22:51:31 by alexis           ###   ########.fr       */
+/*   Updated: 2024/10/12 23:26:57 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static int	minishell(t_bag **bag)
 			add_history(line);
 		(*bag)->tokens = NULL;
 		if (token_ctrl(line, bag))
-			tokens_exe((*bag)->tokens, &(*bag)->env, *bag, 0);
+			tokens_exe((*bag)->tokens, &(*bag)->env, *bag);
 		free_tokens((*bag)->tokens);
 	}
 	clear_history();
