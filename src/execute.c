@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 16:21:36 by aglampor          #+#    #+#             */
-/*   Updated: 2024/10/12 21:18:35 by acoste           ###   ########.fr       */
+/*   Updated: 2024/10/12 23:13:04 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,43 +41,6 @@ void	pipe_end(t_bag *bag)
 
 int	tokens_exe(t_token *t, t_env **env, t_bag *bag)
 {
-	pid_t	pid;
-	int		**pipefd;
-	int		nb_tok;
-	int		i;
-
-	(void)bag;
-	nb_tok = nb_token(t);
-	i = 0;
-	if (!t->next && t->type == BUILTIN)
-		return (exe_builtin(t, env));
-	exit_exe(bag, t->value);
-	pipefd = build_pipe(nb_tok);
-	while (t)
-	{
-		pid = fork();
-		if (pid == -1)
-			return (1);
-		if (!pid)
-		{
-			handle_pip(pipefd, i);
-			free_pipes(pipefd);
-			cmd_exe(bag->tokens, &(bag->env));
-			free_tokens(bag->tokens);
-			free_env(bag->env);
-			free(bag);
-			exit(1);
-		}
-		t = t->next;
-		i++;
-	}
-	daddy_rout(pipefd, nb_tok, pid);
-	return (0);
-}
-
-/*
-int	tokens_exe(t_token *t, t_env **env, t_bag *bag)
-{
 	int		**pipefd;
 	int		nb_tok;
 
@@ -92,7 +55,7 @@ int	tokens_exe(t_token *t, t_env **env, t_bag *bag)
 
 int	child_exec(t_bag *bag, int **pipefd, int i, int nb_tok)
 {
-	int status;
+	int		status;
 	pid_t	pid;
 
 	pipefd = build_pipe(nb_tok);
@@ -110,11 +73,40 @@ int	child_exec(t_bag *bag, int **pipefd, int i, int nb_tok)
 		}
 		else
 		{
-			waitpid(pid, &status, 0);
-			if (WIFEXITED(status))
-				global_variable(WEXITSTATUS(status), 0);
+			// waitpid(pid, &status, 0);
+			global_variable(WEXITSTATUS(status), 0);
 		}
 		bag->tokens = bag->tokens->next;
+		i++;
+	}
+	return (daddy_rout(pipefd, nb_tok, pid), 0);
+}
+
+/*
+int	tokens_exe(t_token *t, t_env **env, t_bag *bag, int	i)
+{
+	pid_t	pid;
+	int		**pipefd;
+	int		nb_tok;
+
+	nb_tok = nb_token(t);
+	if(!t->next && t->type == BUILTIN)
+			return (exe_builtin(t, env));
+	pipefd = build_pipe(nb_tok);
+	while (t)
+	{
+		pid = fork();
+		if (pid == -1)
+			return (1);
+		if (!pid)
+		{
+			handle_pip(pipefd, i);
+			free_pipes(pipefd);;
+			cmd_exe(t, env);
+			ft_free_all(env, &t, bag);
+			exit(1);
+		}
+		t = t->next;
 		i++;
 	}
 	return (daddy_rout(pipefd, nb_tok, pid), 0);

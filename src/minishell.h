@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 15:38:59 by aglampor          #+#    #+#             */
-/*   Updated: 2024/10/12 21:11:55 by acoste           ###   ########.fr       */
+/*   Updated: 2024/10/12 23:22:53 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,7 @@ void	ft_strcpy(char *str, char *dest);
 
 //exe
 int		tokens_exe(t_token *t, t_env **env, t_bag *bag);
+// int		tokens_exe(t_token *t, t_env **env, t_bag *bag, int	i);
 int		exe_builtin(t_token *ts, t_env **e);
 int		exe_shell(t_token *t, t_env *menv);
 void	redir(t_token *t, t_env **env);
@@ -189,7 +190,7 @@ int		ft_pwd(char **value);
 
 //exit
 int		ft_exit(char **command, t_env **env, t_token **tok, t_bag *bag);
-void	ft_free_all(t_env **env, t_token **tok);
+void	ft_free_all(t_env **env, t_token **tok, t_bag *bag);
 int		check_exit_args(char **command);
 
 //cd

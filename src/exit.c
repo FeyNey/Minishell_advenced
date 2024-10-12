@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 08:51:49 by alexis            #+#    #+#             */
-/*   Updated: 2024/10/12 15:38:27 by acoste           ###   ########.fr       */
+/*   Updated: 2024/10/12 22:55:46 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,14 @@ int	ft_exit(char **command, t_env **env, t_token **tok, t_bag *bag)
 		write(1, "exit\n", 5);
 		if (!command[1])
 		{
-			ft_free_all(env, tok);
-			free(bag);
+			ft_free_all(env, tok, bag);
 			exit(EXIT_SUCCESS);
 		}
 		else
 		{
 			if (check_exit_args(command) == 1)
 			{
-				ft_free_all(env, tok);
-				free(bag);
+				ft_free_all(env, tok, bag);
 				exit(EXIT_SUCCESS);
 			}
 		}
@@ -62,8 +60,9 @@ int	ft_exit(char **command, t_env **env, t_token **tok, t_bag *bag)
 	return (0);
 }
 
-void	ft_free_all(t_env **env, t_token **tok)
+void	ft_free_all(t_env **env, t_token **tok, t_bag *bag)
 {
 	free_env(*env);
 	free_tokens(*tok);
+	free(bag);
 }
