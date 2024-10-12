@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: alexis <alexis@student.42.fr>              +#+  +:+       +#+         #
+#    By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/27 15:05:19 by aglampor          #+#    #+#              #
-#    Updated: 2024/10/11 22:42:09 by alexis           ###   ########.fr        #
+#    Updated: 2024/10/12 15:09:52 by acoste           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = gcc
 
-CFLAGS = -g -Wall -Werror -Wextra
+CFLAGS = -g -Wall -Wextra -Werror
 
 NAME	= minishell
 

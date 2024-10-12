@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_pip.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 19:20:48 by acoste            #+#    #+#             */
-/*   Updated: 2024/10/11 13:27:02 by alexis           ###   ########.fr       */
+/*   Updated: 2024/10/12 14:14:59 by acoste           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ void	cleanpip(t_token **t)
 		if (tmp && tmp->type == PIPE)
 		{
 			to->next = tmp->next;
+			ft_free_split(tmp->value);
 			free(tmp);
 		}
 		to = to->next;

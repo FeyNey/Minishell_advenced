@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_CMD.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 19:20:48 by acoste            #+#    #+#             */
-/*   Updated: 2024/10/12 01:14:31 by alexis           ###   ########.fr       */
+/*   Updated: 2024/10/12 14:28:32 by acoste           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,31 @@ static void	cmd_split(char **arr, char *str)
 	}
 }
 
+static char	**ft_malloc_2(int len)
+{
+	char	**new;
+	int		i;
+
+	i = 0;
+	new = malloc(sizeof(char *) * (len + 1));
+	if (!new)
+		return (NULL);
+	new[len] = '\0';
+	while (i < len)
+	{
+		new[i] = '\0';
+		i++;
+	}
+	return (new);
+}
+
 char	**split_input(char *str)
 {
 	char	**arr;
 	int		words;
 
-
 	words = count_wrd_input(str);
-	arr = malloc(sizeof(char *) * (words + 1));
+	arr = ft_malloc_2((words));
 	if (!arr)
 		return (0);
 	arr[words] = 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tok_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 15:48:54 by aglampor          #+#    #+#             */
-/*   Updated: 2024/10/11 19:26:05 by alexis           ###   ########.fr       */
+/*   Updated: 2024/10/12 12:07:29 by acoste           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void	free_tokens(t_token *p)
 		tmp = p->next;
 		if (p->value)
 			ft_free_split(p->value);
-		free(p);
+		if (p)
+			free(p);
 		p = tmp;
 	}
 }

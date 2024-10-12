@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 08:29:22 by alexis            #+#    #+#             */
-/*   Updated: 2024/10/12 00:12:01 by alexis           ###   ########.fr       */
+/*   Updated: 2024/10/12 14:27:54 by acoste           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	check_arg_cd(char **value, t_env **env)
 	{
 		oldpwd = getcwd(NULL, 0);
 		if (oldpwd == NULL)
-			return(oldpwd_error(oldpwd), 0);
+			return (oldpwd_error(oldpwd), 0);
 		i = chdir(value[1]);
 		if (i != 0)
 			return (chdir_error(oldpwd, value[1]), 1);
