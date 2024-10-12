@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 15:38:59 by aglampor          #+#    #+#             */
-/*   Updated: 2024/10/12 23:26:51 by alexis           ###   ########.fr       */
+/*   Updated: 2024/10/12 23:47:45 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,5 +244,6 @@ int		ft_echo(char **value);
 void	pipe_end(t_bag *bag);
 void	error_execve(char **value);
 int		child_exec(t_bag *bag, int **pipefd, int i, int nb_tok);
+int		cd_tiret2(char *value, t_env *env, char *oldpwd);
 
 #endif

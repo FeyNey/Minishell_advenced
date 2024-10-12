@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 16:21:36 by aglampor          #+#    #+#             */
-/*   Updated: 2024/10/12 23:13:04 by alexis           ###   ########.fr       */
+/*   Updated: 2024/10/12 23:58:06 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ int	tokens_exe(t_token *t, t_env **env, t_bag *bag)
 
 int	child_exec(t_bag *bag, int **pipefd, int i, int nb_tok)
 {
-	int		status;
 	pid_t	pid;
 
 	pipefd = build_pipe(nb_tok);
@@ -70,11 +69,6 @@ int	child_exec(t_bag *bag, int **pipefd, int i, int nb_tok)
 			free_pipes(pipefd);
 			cmd_exe(bag->tokens, &(bag->env));
 			pipe_end(bag);
-		}
-		else
-		{
-			// waitpid(pid, &status, 0);
-			global_variable(WEXITSTATUS(status), 0);
 		}
 		bag->tokens = bag->tokens->next;
 		i++;
@@ -117,7 +111,8 @@ void	error_execve(char **value)
 {
 	printf("Error code: \n%d\n", errno);
 	if (errno == 2)
-		global_variable(127, 0);
+		return ;
+	global_variable(127, 0);
 	printf("bash : %s: %s\n", value[0], strerror(errno));
 }
 

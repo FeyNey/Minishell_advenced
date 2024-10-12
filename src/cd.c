@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acoste <acoste@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 08:29:22 by alexis            #+#    #+#             */
-/*   Updated: 2024/10/12 14:27:54 by acoste           ###   ########.fr       */
+/*   Updated: 2024/10/12 23:31:42 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	check_arg_cd(char **value, t_env **env)
 		set_pwd(*env);
 		free(oldpwd);
 	}
-	return (0);
+	return (global_variable(0, 0), 0);
 }
 
 int	check_exception_cd(char *value, t_env *env)

@@ -6,7 +6,7 @@
 /*   By: alexis <alexis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 15:38:59 by aglampor          #+#    #+#             */
-/*   Updated: 2024/10/12 23:26:57 by alexis           ###   ########.fr       */
+/*   Updated: 2024/10/12 23:33:32 by alexis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	global_variable(int i, int sw)
 	if (sw == 0)
 	{
 		global = i;
+		printf("\n  |||  new global value = %i  |||  \n", global);
 	}
 	if (sw == 1)
 		return (global);
